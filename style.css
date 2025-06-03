@@ -110,16 +110,21 @@ body {
     border: 1px solid var(--kali-light-grey);
     border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    min-width: 600px; /* Increased minimum width for content */
-    min-height: 400px; /* Increased minimum height for content */
     display: flex;
-    flex-direction: column;
-    /* Removed redundant overflow:hidden; and combined with overflow:auto; */
+    flex-direction: column; /* IMPORTANT: This makes window-body respect flex-grow */
     overflow: auto; /* Enable scrollbars for the window itself if content overflows */
     z-index: 999; /* Below taskbar */
     resize: both; /* Allow resizing (will need JS to control) */
-    left: 200px; /* Initial position */
-    top: 100px; /* Initial position */
+
+    /* NEW: Responsive initial positioning and sizing for the window itself */
+    top: 10vh;
+    left: 10vw;
+    width: 70vw;
+    height: 70vh;
+    max-width: calc(100vw - 40px); /* Max width to prevent it from going off screen easily (accounting for taskbar) */
+    max-height: calc(100vh - 80px); /* Max height (accounting for taskbar and some margin) */
+    min-width: 400px; /* Still keep a sensible minimum */
+    min-height: 300px; /* Adjusted minimum height */
 }
 
 .window-header {
@@ -155,28 +160,33 @@ body {
 .window-controls .maximize-btn:hover { background-color: #ff9900; } /* Orange */
 .window-controls .close-btn:hover { background-color: #ff0000; } /* Red */
 
+/* MODIFIED: .window-body for flex container and no internal padding */
 .window-body {
-    padding: 25px 15px 15px 15px; /* MODIFIED: Increased top padding to push content down */
-    flex-grow: 1; /* Allows it to fill remaining space */
-    background-color: var(--kali-dark-grey);
-    overflow-y: auto; /* MODIFIED: Explicitly keep this for vertical scrolling */
-    position: relative; /* For absolute positioning of children if needed */
+    padding: 0; /* Remove padding here, children will handle their own */
+    flex-grow: 1; /* Allows it to fill remaining space in .window */
+    background-color: var(--kali-dark-grey); /* Background for the content area */
+    overflow-y: auto; /* Handles scrolling for the window's content */
+    position: relative;
+    display: flex; /* Make window-body a flex container */
+    flex-direction: column; /* Stack children vertically */
 }
 
 /* Styles for content loaded inside window-body */
 #content-iframe {
     width: 100%;
-    height: 100%;
+    height: 100%; /* Iframe needs explicit height to fill its container */
     border: none; /* Remove default iframe border */
     background-color: var(--kali-dark-grey); /* Fallback */
+    flex-grow: 1; /* Allow iframe to fill space when active */
 }
 
+/* MODIFIED: #html-content to have its own padding and flex-grow */
 #html-content {
     width: 100%;
-    /* REMOVED: height: 100%; - Let it grow with content */
-    /* REMOVED: overflow-y: auto; - Let window-body handle scrolling */
-    padding: 0;
+    padding: 20px; /* Add specific padding for HTML content */
     box-sizing: border-box; /* Include padding in width/height */
+    flex-grow: 1; /* Allow HTML content to fill space when active */
+    overflow-y: auto; /* Ensure scrolling within HTML content if it's too long */
 }
 
 #html-content h1, #html-content h2, #html-content h3 {
@@ -202,20 +212,26 @@ body {
     color: #fff;
 }
 
-
-/* Terminal specific styles */
+/* MODIFIED: Terminal specific styles */
 #terminal-output {
     background-color: #000; /* Black background for terminal */
     color: var(--kali-green); /* Green text */
     font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
     font-size: 0.9em;
     white-space: pre-wrap; /* Preserves whitespace and wraps long lines */
-    min-height: 150px; /* Ensure some visible height */
-    padding: 10px;
+    /* REMOVED: min-height, let flex-grow determine height */
+    
+    /* CUSTOM PADDING for terminal - More top/side, less bottom */
+    padding: 20px 20px 10px 20px; /* Top Right Bottom Left */
     margin: 0; /* Remove default pre margin */
-    border: 1px solid #333;
+    border: 3px solid #333;
     border-radius: 3px;
-    flex-grow: 1; /* Allow it to fill space if window-body is flex */
+    
+    flex-grow: 1; /* CRUCIAL: Makes it fill available vertical space */
+    overflow-x: auto; /* Keep horizontal scroll if line is too long */
+    width: 100%; /* Ensure it takes full available width */
+    height: 100%; /* Ensure it fills the height of its parent */
+    box-sizing: border-box; /* Include padding/border in width/height */
 }
 
 /* Kali Menu Styles */
