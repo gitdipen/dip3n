@@ -1,0 +1,273 @@
+/* Basic Resets & Font */
+body {
+    margin: 0;
+    font-family: 'Hack', 'Fira Code', 'Roboto Mono', monospace; /* More terminal-like fonts */
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light text color */
+    overflow: hidden; /* Prevent scrollbars unless needed by specific elements */
+}
+
+/* Kali Linux inspired colors */
+:root {
+    --kali-dark-grey: #1a1a1a;
+    --kali-medium-grey: #2e2e2e;
+    --kali-light-grey: #404040;
+    --kali-green: #00ff00; /* For terminal text */
+    --kali-blue: #007bff; /* For highlights/links */
+    --kali-red: #ff0000; /* For close buttons */
+}
+
+/* Desktop Styles */
+#desktop {
+    width: 100vw; /* Viewport width */
+    height: 100vh; /* Viewport height */
+    background-image: url('https://raw.githubusercontent.com/gitdipen/kali/main/images/kali_wallpaper.jpg'); /* Placeholder, you'll need to add this image later */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden; /* Important for preventing scroll issues */
+}
+
+/* Taskbar (Panel) Styles */
+#taskbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px; /* Standard height */
+    background-color: var(--kali-medium-grey);
+    border-bottom: 1px solid var(--kali-light-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 1000; /* Ensure it's on top */
+}
+
+.taskbar-item {
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+}
+
+.taskbar-item i {
+    margin-right: 5px;
+}
+
+.taskbar-item:hover {
+    background-color: var(--kali-light-grey);
+}
+
+.right-items i {
+    margin-left: 10px;
+}
+
+/* Desktop Icons */
+#desktop-icons {
+    position: absolute;
+    top: 50px; /* Below taskbar */
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between icons */
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 80px; /* Fixed width for icon block */
+    text-align: center;
+    transition: background-color 0.2s; /* Smooth hover effect */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.icon i {
+    font-size: 2.5em; /* Large icons */
+    color: var(--kali-blue); /* Icon color */
+    margin-bottom: 5px;
+}
+
+.icon span {
+    font-size: 0.8em;
+    word-wrap: break-word; /* Allow long names to wrap */
+}
+
+.icon:hover {
+    background-color: rgba(0, 0, 0, 0.3); /* Slight hover background */
+    border: 1px solid rgba(0, 0, 0, 0.5); /* Subtle border on hover */
+}
+
+/* Window Styles (for content-window) */
+.window {
+    position: absolute;
+    background-color: var(--kali-dark-grey);
+    border: 1px solid var(--kali-light-grey);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    min-width: 600px; /* Increased minimum width for content */
+    min-height: 400px; /* Increased minimum height for content */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide overflowing content initially */
+    z-index: 999; /* Below taskbar */
+    resize: both; /* Allow resizing (will need JS to control) */
+    overflow: auto; /* Enable scrollbars if content overflows */
+    left: 200px; /* Initial position */
+    top: 100px; /* Initial position */
+}
+
+.window-header {
+    background-color: var(--kali-light-grey);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--kali-dark-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab; /* Indicates it's draggable */
+    color: #fff;
+    font-weight: bold;
+}
+
+.window-title {
+    font-size: 0.9em;
+}
+
+.window-controls button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.1em;
+    margin-left: 5px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.window-controls .minimize-btn:hover { background-color: #007bff; } /* Blue */
+.window-controls .maximize-btn:hover { background-color: #ff9900; } /* Orange */
+.window-controls .close-btn:hover { background-color: #ff0000; } /* Red */
+
+.window-body {
+    padding: 15px;
+    flex-grow: 1; /* Allows it to fill remaining space */
+    background-color: var(--kali-dark-grey);
+    overflow-y: auto; /* Enable vertical scrolling if content is long */
+    position: relative; /* For absolute positioning of children if needed */
+}
+
+/* Styles for content loaded inside window-body */
+#content-iframe {
+    width: 100%;
+    height: 100%;
+    border: none; /* Remove default iframe border */
+    background-color: var(--kali-dark-grey); /* Fallback */
+}
+
+#html-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* Scroll for HTML content */
+    padding: 0; /* Content itself might have padding */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+#html-content h1, #html-content h2, #html-content h3 {
+    color: var(--kali-blue);
+    margin-top: 0.5em;
+    margin-bottom: 0.3em;
+}
+
+#html-content p {
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+}
+
+#html-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+#html-content a {
+    color: var(--kali-green); /* Links in HTML content */
+    text-decoration: underline;
+}
+#html-content a:hover {
+    color: #fff;
+}
+
+
+/* Terminal specific styles */
+#terminal-output {
+    background-color: #000; /* Black background for terminal */
+    color: var(--kali-green); /* Green text */
+    font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap; /* Preserves whitespace and wraps long lines */
+    min-height: 150px; /* Ensure some visible height */
+    padding: 10px;
+    margin: 0; /* Remove default pre margin */
+    border: 1px solid #333;
+    border-radius: 3px;
+    flex-grow: 1; /* Allow it to fill space if window-body is flex */
+}
+
+/* Kali Menu Styles */
+#kali-menu {
+    position: absolute;
+    top: 40px; /* Below taskbar */
+    left: 0;
+    background-color: var(--kali-dark-grey);
+    border: 1px solid var(--kali-light-grey);
+    border-top: none;
+    padding: 10px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    min-width: 180px;
+}
+
+#kali-menu.hidden {
+    display: none;
+}
+
+#kali-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#kali-menu li {
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#kali-menu li:hover {
+    background-color: var(--kali-light-grey);
+}
+
+/* Initially hide the content window */
+#content-window.hidden {
+    display: none;
+}
+
+/* Optional: Scrollbar styling for a consistent look */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--kali-medium-grey);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--kali-light-grey);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--kali-blue);
+}
