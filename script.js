@@ -170,8 +170,8 @@ kali@kali:~$
     // --- Icon Click Handlers & Menu Item Handlers ---
 
     // Desktop Icon Clicks
-    document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Dipen_Thaker_Resume.pdf', 'Resume - Dipen Thaker'));
-    document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/network-scanner/index.html', 'Project - Network Scanner')); // Now loads the fake project HTML
+    document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker')); // FIX: Corrected PDF filename
+    document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/index.html', 'My Cybersecurity Projects')); // Now loads the main projects listing page
     document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View')); // Now loads skills as terminal output
     document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank')); // Opens in new tab as it's external
     document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank')); // Opens in new tab as it's external
@@ -184,8 +184,8 @@ kali@kali:~$
             kaliMenu.classList.add('hidden'); // Close menu
             const action = item.dataset.action;
             switch (action) {
-                case 'open-resume': loadContent('resume', 'resume/Dipen_Thaker_Resume.pdf', 'Resume - Dipen Thaker'); break;
-                case 'open-projects': loadContent('html', 'projects/network-scanner/index.html', 'Project - Network Scanner'); break; // Now loads the fake project HTML
+                case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break; // FIX: Corrected PDF filename
+                case 'open-projects': loadContent('html', 'projects/index.html', 'My Cybersecurity Projects'); break; // Now loads the main projects listing page
                 case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break; // Now loads skills as terminal output
                 case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break; // Opens in new tab
                 case 'open-linkedin': window.open('https://www.linkedin.com/in/dipenthaker', '_blank'); break; // Opens in new tab

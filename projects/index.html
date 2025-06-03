@@ -3,77 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Projects</title>
+    <title>Network Scanner Project</title>
     <style>
-        /* Basic styling to fit the Kali theme */
         body {
-            font-family: 'Roboto Mono', monospace; /* Consistent with terminal */
-            background-color: #1e1e1e; /* Dark background */
-            color: #e0e0e0; /* Light text */
+            font-family: 'Roboto Mono', monospace;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
             padding: 20px;
             line-height: 1.6;
-            overflow-y: auto; /* Enable scrolling */
+            /* REMOVED: overflow-y: auto; - Let the parent window-body handle scrolling */
         }
         h1 {
             color: #00ff00; /* Kali green */
             font-size: 1.8em;
             margin-bottom: 20px;
         }
-        .project-list {
-            list-style: none;
-            padding: 0;
-        }
-        .project-item {
-            background-color: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .project-item h2 {
-            color: #00bfff; /* Light blue for project titles */
-            font-size: 1.4em;
-            margin-top: 0;
-        }
-        .project-item p {
+        h2 {
+            color: #00bfff; /* Light blue */
+            font-size: 1.3em;
+            margin-top: 25px;
             margin-bottom: 10px;
         }
-        .project-item .links a {
-            color: #9370db; /* Medium purple for links */
-            text-decoration: none;
-            margin-right: 15px;
+        p {
+            margin-bottom: 10px;
         }
-        .project-item .links a:hover {
+        pre {
+            background-color: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap; /* Ensures long lines wrap */
+            word-wrap: break-word; /* Ensures long words break */
+            word-break: break-all; /* ADDED: Force breaks for very long unbroken strings */
+            width: 100%; /* Ensure it takes full available width */
+            box-sizing: border-box; /* Include padding in the width calculation */
+        }
+        a {
+            color: #9370db; /* Medium purple */
+            text-decoration: none;
+        }
+        a:hover {
             text-decoration: underline;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>My Cybersecurity Projects</h1>
+    <h1>Network Scanner (Python)</h1>
 
-    <ul class="project-list">
-        <li class="project-item">
-            <h2>Network Scanner (Python)</h2>
-            <p>
-                A basic network scanner in Python, leveraging powerful libraries to perform host discovery and port scanning. Designed for educational purposes to understand network reconnaissance techniques used in ethical hacking.
-            </p>
-            <div class="links">
-                <a href="network-scanner/index.html">View Details</a>
-                </div>
-        </li>
+    <p>
+        This project is a command-line network scanning tool developed in Python. It's designed to help identify active hosts and open ports on a given network segment, simulating initial reconnaissance phases in cybersecurity assessments.
+    </p>
 
-        <li class="project-item">
-            <h2>Project Two (Coming Soon!)</h2>
-            <p>
-                Description of your second project will go here. It could be about incident response, malware analysis, or anything else you've worked on!
-            </p>
-            <div class="links">
-                </div>
-        </li>
+    <h2>Features:</h2>
+    <ul>
+        <li>**Host Discovery:** Uses ARP requests to find active devices on the local network.</li>
+        <li>**Port Scanning:** Scans for open TCP ports on target hosts.</li>
+        <li>**Customizable Range:** Allows users to specify IP ranges and port ranges.</li>
+        <li>**Simple CLI:** Easy-to-use command-line interface for quick scans.</li>
+    </ul>
 
-        </ul>
+    <h2>Technical Details:</h2>
+    <p>
+        The tool leverages the <code>scapy</code> library for crafting and sending custom network packets (ARP requests, TCP SYN packets) and for parsing responses. It provides a foundational understanding of how network protocols can be manipulated for reconnaissance.
+    </p>
+    <p>
+        **Key Python Libraries Used:**
+    </p>
+    <ul>
+        <li><code>scapy</code>: For network packet manipulation.</li>
+        <li><code>argparse</code>: For handling command-line arguments.</li>
+        <li><code>socket</code>: For basic network operations (though `scapy` handles most of it).</li>
+    </ul>
 
-    <p>Stay tuned for more projects!</p>
+    <h2>Example Usage (Conceptual):</h2>
+    <pre>
+kali@kali:~$ python network_scanner.py -t 192.168.1.1/24 -p 22,80,443
+kali@kali:~$ [+] Scanning 192.168.1.1/24 for hosts and ports...
+
+Host: 192.168.1.1
+  Port 22: Open (SSH)
+  Port 80: Open (HTTP)
+
+Host: 192.168.1.10
+  Port 443: Open (HTTPS)
+
+kali@kali:~$ Scanning complete.
+</pre>
+
+    <h2>Source Code:</h2>
+    <p>
+        You can view the (conceptual) source code on my GitHub: <a href="https://github.com/gitdipen/network-scanner-project" target="_blank">github.com/gitdipen/network-scanner-project</a>
+    </p>
+
+    <p><a href="../index.html">← Back to Projects List</a></p>
 
 </body>
 </html>

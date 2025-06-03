@@ -114,10 +114,10 @@ body {
     min-height: 400px; /* Increased minimum height for content */
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Hide overflowing content initially */
+    /* Removed redundant overflow:hidden; and combined with overflow:auto; */
+    overflow: auto; /* Enable scrollbars for the window itself if content overflows */
     z-index: 999; /* Below taskbar */
     resize: both; /* Allow resizing (will need JS to control) */
-    overflow: auto; /* Enable scrollbars if content overflows */
     left: 200px; /* Initial position */
     top: 100px; /* Initial position */
 }
@@ -156,10 +156,10 @@ body {
 .window-controls .close-btn:hover { background-color: #ff0000; } /* Red */
 
 .window-body {
-    padding: 15px;
+    padding: 25px 15px 15px 15px; /* MODIFIED: Increased top padding to push content down */
     flex-grow: 1; /* Allows it to fill remaining space */
     background-color: var(--kali-dark-grey);
-    overflow-y: auto; /* Enable vertical scrolling if content is long */
+    overflow-y: auto; /* MODIFIED: Explicitly keep this for vertical scrolling */
     position: relative; /* For absolute positioning of children if needed */
 }
 
@@ -173,9 +173,9 @@ body {
 
 #html-content {
     width: 100%;
-    height: 100%;
-    overflow-y: auto; /* Scroll for HTML content */
-    padding: 0; /* Content itself might have padding */
+    /* REMOVED: height: 100%; - Let it grow with content */
+    /* REMOVED: overflow-y: auto; - Let window-body handle scrolling */
+    padding: 0;
     box-sizing: border-box; /* Include padding in width/height */
 }
 
