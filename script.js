@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Content Loading Logic ---
+    // --- Content Loading Logic (CORE CHANGES HERE) ---
 
     // Helper to hide all content display elements
     function hideAllContentDivs() {
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 kali@kali:~$ Click on the icons or the Kali menu to explore.
 kali@kali:~$
 `;
-        } else if (type === 'resume') { // Used for PDF files
+        } else if (type === 'resume') { // This 'resume' type is now unused if all resume calls use 'markdown-to-terminal'
             contentIframe.style.display = 'block';
             contentIframe.src = fullPath; // Load PDF directly into iframe
         } else if (type === 'html') {
@@ -180,7 +180,13 @@ kali@kali:~$
     // --- Icon Click Handlers & Menu Item Handlers ---
 
     // Desktop Icon Clicks
+<<<<<<< HEAD
     document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'));
+=======
+    // UPDATED: Now loads resume as markdown in terminal
+    document.getElementById('resume-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'resume/README.md', 'Resume - Terminal View'));
+    // UPDATED: Now loads the main projects listing page
+>>>>>>> parent of d9f729f (Finalizing)
     document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/index.html', 'My Projects'));
     document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'));
     document.getElementById('about-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'));
@@ -195,7 +201,13 @@ kali@kali:~$
             kaliMenu.classList.add('hidden'); // Close menu
             const action = item.dataset.action;
             switch (action) {
+<<<<<<< HEAD
                 case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break;
+=======
+                // UPDATED: Now loads resume as markdown in terminal
+                case 'open-resume': loadContent('markdown-to-terminal', 'resume/README.md', 'Resume - Terminal View'); break;
+                // UPDATED: Now loads the main projects listing page
+>>>>>>> parent of d9f729f (Finalizing)
                 case 'open-projects': loadContent('html', 'projects/index.html', 'My Projects'); break;
                 case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break;
                 case 'open-about': loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'); break;
