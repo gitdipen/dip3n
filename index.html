@@ -3,77 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Projects</title>
-    <style>
-        /* Basic styling to fit the Kali theme */
-        body {
-            font-family: 'Roboto Mono', monospace; /* Consistent with terminal */
-            background-color: #1e1e1e; /* Dark background */
-            color: #e0e0e0; /* Light text */
-            padding: 20px;
-            line-height: 1.6;
-            overflow-y: auto; /* Enable scrolling */
-        }
-        h1 {
-            color: #00ff00; /* Kali green */
-            font-size: 1.8em;
-            margin-bottom: 20px;
-        }
-        .project-list {
-            list-style: none;
-            padding: 0;
-        }
-        .project-item {
-            background-color: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .project-item h2 {
-            color: #00bfff; /* Light blue for project titles */
-            font-size: 1.4em;
-            margin-top: 0;
-        }
-        .project-item p {
-            margin-bottom: 10px;
-        }
-        .project-item .links a {
-            color: #9370db; /* Medium purple for links */
-            text-decoration: none;
-            margin-right: 15px;
-        }
-        .project-item .links a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Dipen Thaker - Cybersecurity Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>My Cybersecurity Projects</h1>
 
-    <ul class="project-list">
-        <li class="project-item">
-            <h2>Network Scanner (Python)</h2>
-            <p>
-                A basic network scanner in Python, leveraging powerful libraries to perform host discovery and port scanning. Designed for educational purposes to understand network reconnaissance techniques used in ethical hacking.
-            </p>
-            <div class="links">
-                <a href="projects/network-scanner/index.html">View Details</a>
+    <div id="desktop">
+        <div id="taskbar">
+            <div id="kali-menu-btn" class="taskbar-item">
+                <i class="fas fa-bars"></i> Kali
+            </div>
+            <div class="taskbar-item right-items">
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-volume-up"></i>
+                <span id="current-time"></span>
+            </div>
+        </div>
+
+        <div id="desktop-icons">
+            <div class="icon" id="resume-icon">
+                <i class="fas fa-file-pdf"></i>
+                <span>Resume</span>
+            </div>
+            <div class="icon" id="projects-icon">
+                <i class="fas fa-folder"></i>
+                <span>Projects</span>
+            </div>
+            <div class="icon" id="skills-icon">
+                <i class="fas fa-flask"></i>
+                <span>Skills</span>
+            </div>
+            <div class="icon" id="github-icon">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </div>
+            <div class="icon" id="linkedin-icon">
+                <i class="fab fa-linkedin"></i>
+                <span>LinkedIn</span>
+            </div>
+            <div class="icon" id="terminal-icon">
+                <i class="fas fa-terminal"></i>
+                <span>Terminal</span>
+            </div>
+        </div>
+
+        <div id="content-window" class="window hidden">
+            <div class="window-header">
+                <span class="window-title"></span> <div class="window-controls">
+                    <button class="minimize-btn">_</button>
+                    <button class="maximize-btn">[]</button>
+                    <button class="close-btn">X</button>
                 </div>
-        </li>
+            </div>
+            <div class="window-body">
+                <iframe id="content-iframe" style="display: none;"></iframe>
+                <div id="html-content" style="display: none;"></div>
+                <pre id="terminal-output" style="display: none;"></pre>
+            </div>
+        </div>
 
-        <li class="project-item">
-            <h2>Project Two (Coming Soon!)</h2>
-            <p>
-                Description of your second project will go here. It could be about incident response, malware analysis, or anything else you've worked on!
-            </p>
-            <div class="links">
-                </div>
-        </li>
+        <div id="kali-menu" class="hidden">
+            <ul>
+                <li data-action="open-resume">Resume</li>
+                <li data-action="open-projects">Projects</li>
+                <li data-action="open-skills">Skills</li>
+                <li data-action="open-github">GitHub Profile</li>
+                <li data-action="open-linkedin">LinkedIn Profile</li>
+                <li data-action="open-terminal">Terminal</li>
+            </ul>
+        </div>
 
-        </ul>
+    </div>
 
-    <p>Stay tuned for more projects!</p>
-
+    <script src="script.js"></script>
 </body>
 </html>

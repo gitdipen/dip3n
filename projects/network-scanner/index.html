@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Projects</title>
+    <title>Network Scanner Project</title>
     <style>
         body {
             font-family: 'Hack', 'Fira Code', 'Roboto Mono', monospace;
@@ -14,58 +14,83 @@
         }
         h1 {
             color: #007bff; /* Kali blue */
-            font-size: 1.8em;
-            margin-bottom: 20px;
         }
-        .project-list {
-            list-style: none;
-            padding: 0;
+        h2 {
+            color: #00ff00; /* Kali green */
         }
-        .project-list li {
-            margin-bottom: 15px;
-            background-color: #2e2e2e; /* Medium grey */
-            padding: 15px;
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        code {
+            background-color: #2e2e2e;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #ff9900;
+        }
+        pre {
+            background-color: #000;
+            color: #00ff00;
+            padding: 10px;
             border-radius: 5px;
-            border: 1px solid #404040;
-            transition: background-color 0.2s;
+            overflow-x: auto;
         }
-        .project-list li:hover {
-            background-color: #404040; /* Light grey on hover */
-        }
-        .project-list li a {
-            color: #00ff00; /* Kali green for links */
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            display: block; /* Make the whole area clickable */
-        }
-        .project-list li a:hover {
+        a {
+            color: #00ff00;
             text-decoration: underline;
-            color: #fff;
         }
-        .project-list li p {
-            font-size: 0.9em;
-            color: #ccc;
-            margin-top: 5px;
-            margin-bottom: 0;
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 15px;
+            border: 1px solid #404040;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body>
-    <h1>Projects</h1>
-    <ul class="project-list">
-        <li>
-            <a href="network-scanner/index.html">Python Network Scanner</a>
-            <p>A basic network scanner in Python for host discovery and port scanning, built with Scapy.</p>
-        </li>
-        <li>
-            <a href="my-cool-script/README.md">My Cool Script</a>
-            <p>A placeholder project description for another cool script.</p>
-        </li>
-        <li>
-            <a href="#">Coming Soon Project</a>
-            <p>Details about an upcoming project will be added here soon.</p>
-        </li>
+    <h1>Python Network Scanner</h1>
+    <p>This project implements a basic network scanner in Python, leveraging powerful libraries to perform host discovery and port scanning. It's designed for educational purposes to understand network reconnaissance techniques used in ethical hacking.</p>
+
+    <h2>Features:</h2>
+    <ul>
+        <li>**Host Discovery:** Identifies active hosts within a specified IP range.</li>
+        <li>**Port Scanning:** Scans for open TCP ports on discovered hosts.</li>
+        <li>**Service Version Detection:** (Optional / Future Feature) Attempts to identify service versions running on open ports.</li>
+        <li>**User-friendly Interface:** Command-line arguments for easy usage.</li>
     </ul>
+
+    <h2>Technologies Used:</h2>
+    <ul>
+        <li>Python 3</li>
+        <li><code>scapy</code> (for crafting and sending network packets)</li>
+        <li><code>socket</code> (for basic TCP/UDP connections)</li>
+    </ul>
+
+    <h2>How to Use:</h2>
+    <p>To run this scanner, navigate to the project directory and execute the script with a target IP range:</p>
+    <pre><code>python network_scanner.py 192.168.1.0/24</code></pre>
+    <p>Example Output:</p>
+    <pre><code>kali@kali:~$ python network_scanner.py 192.168.1.0/24
+    Scanning 192.168.1.0/24...
+    Host 192.168.1.1 is UP
+        Port 80/tcp is OPEN (http)
+        Port 443/tcp is OPEN (https)
+    Host 192.168.1.10 is UP
+        Port 22/tcp is OPEN (ssh)
+    ...
+    Scan Complete.
+    </code></pre>
+
+    <h2>Project Code:</h2>
+    <p>You can find the main script file here: <a href="network_scanner.py"><code>network_scanner.py</code></a> (assuming you'll add it here later)</p>
+    
+    <h2>Screenshot/Demo:</h2>
+    <img src="https://via.placeholder.com/600x300?text=Network+Scanner+Screenshot" alt="Network Scanner Screenshot">
+    <p>*(Replace with an actual screenshot of your tool running)*</p>
+
+    <h2>Learnings & Challenges:</h2>
+    <p>Developing this tool provided hands-on experience with raw socket programming and understanding network protocols at a deeper level. A key challenge was handling different network latency issues during host discovery to ensure accurate results without false positives.</p>
 </body>
 </html>
