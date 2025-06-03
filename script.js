@@ -22,12 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let isMaximized = false;
     let originalWindowPos = { top: 0, left: 0, width: 0, height: 0 };
 
-    // Determine the base path for GitHub Pages
-    // This handles cases where the site is served from a sub-directory (like /dip3n/)
-    const basePath = window.location.pathname.endsWith('/') 
-                     ? window.location.pathname 
-                     : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-
     // --- Taskbar Clock ---
     function updateClock() {
         const now = new Date();
@@ -121,12 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to load content into the window
     async function loadContent(type, path = '', title = 'Window') {
         contentWindow.classList.remove('hidden'); // Show the window
-        contentWindow.style.zIndex = '100'; // Bring to front
         windowTitle.textContent = title; // Set window title
         hideAllContentDivs(); // Hide all previous content
-
-        // Construct the full path using basePath
-        const fullPath = path ? `${basePath}${path}` : '';
 
         if (type === 'terminal') {
             terminalOutputPre.style.display = 'block';
@@ -134,26 +124,26 @@ document.addEventListener('DOMContentLoaded', () => {
 kali@kali:~$ Click on the icons or the Kali menu to explore.
 kali@kali:~$
 `;
-        } else if (type === 'resume') { // This 'resume' type is now unused if all resume calls use 'markdown-to-terminal'
+        } else if (type === 'resume') {
             contentIframe.style.display = 'block';
-            contentIframe.src = fullPath; // Load PDF directly into iframe
+            contentIframe.src = path; // Load PDF directly into iframe
         } else if (type === 'html') {
             htmlContentDiv.style.display = 'block';
             try {
-                const response = await fetch(fullPath); // Use fullPath here
+                const response = await fetch(path);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const html = await response.text();
                 htmlContentDiv.innerHTML = html;
             } catch (error) {
-                htmlContentDiv.innerHTML = `<p style="color: red;">Error loading content: ${error.message}</p><p>Please ensure the file '${fullPath}' exists and is accessible.</p>`;
+                htmlContentDiv.innerHTML = `<p style="color: red;">Error loading content: ${error.message}</p><p>Please ensure the file '${path}' exists and is accessible.</p>`;
                 console.error("Error loading HTML content:", error);
             }
         } else if (type === 'markdown-to-terminal') {
             terminalOutputPre.style.display = 'block';
             try {
-                const response = await fetch(fullPath); // Use fullPath here
+                const response = await fetch(path);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -171,7 +161,7 @@ kali@kali:~$
                 terminalOutputPre.textContent = `kali@kali:~$ cat ${path.split('/').pop()}\n\n${cleanText}\nkali@kali:~$ `;
 
             } catch (error) {
-                terminalOutputPre.textContent = `kali@kali:~$ Error: Could not load data.\nkali@kali:~$ ${error.message}\nkali@kali:~$ `;
+                terminalOutputPre.textContent = `kali@kali:~$ Error: Could not load skills data.\nkali@kali:~$ ${error.message}\nkali@kali:~$ `;
                 console.error("Error loading markdown for terminal:", error);
             }
         }
@@ -180,18 +170,11 @@ kali@kali:~$
     // --- Icon Click Handlers & Menu Item Handlers ---
 
     // Desktop Icon Clicks
-<<<<<<< HEAD
-    document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'));
-=======
-    // UPDATED: Now loads resume as markdown in terminal
-    document.getElementById('resume-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'resume/README.md', 'Resume - Terminal View'));
-    // UPDATED: Now loads the main projects listing page
->>>>>>> parent of d9f729f (Finalizing)
-    document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/index.html', 'My Projects'));
-    document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'));
-    document.getElementById('about-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'));
-    document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank'));
-    document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank'));
+    document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Dipen_Thaker_Resume.pdf', 'Resume - Dipen Thaker'));
+    document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/network-scanner/index.html', 'Project - Network Scanner')); // Now loads the fake project HTML
+    document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View')); // Now loads skills as terminal output
+    document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank')); // Opens in new tab as it's external
+    document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank')); // Opens in new tab as it's external
     document.getElementById('terminal-icon').addEventListener('click', () => loadContent('terminal', '', 'Terminal - Home'));
 
 
@@ -201,18 +184,11 @@ kali@kali:~$
             kaliMenu.classList.add('hidden'); // Close menu
             const action = item.dataset.action;
             switch (action) {
-<<<<<<< HEAD
-                case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break;
-=======
-                // UPDATED: Now loads resume as markdown in terminal
-                case 'open-resume': loadContent('markdown-to-terminal', 'resume/README.md', 'Resume - Terminal View'); break;
-                // UPDATED: Now loads the main projects listing page
->>>>>>> parent of d9f729f (Finalizing)
-                case 'open-projects': loadContent('html', 'projects/index.html', 'My Projects'); break;
-                case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break;
-                case 'open-about': loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'); break;
-                case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break;
-                case 'open-linkedin': window.open('https://www.linkedin.com/in/dipenthaker', '_blank'); break;
+                case 'open-resume': loadContent('resume', 'resume/Dipen_Thaker_Resume.pdf', 'Resume - Dipen Thaker'); break;
+                case 'open-projects': loadContent('html', 'projects/network-scanner/index.html', 'Project - Network Scanner'); break; // Now loads the fake project HTML
+                case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break; // Now loads skills as terminal output
+                case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break; // Opens in new tab
+                case 'open-linkedin': window.open('https://www.linkedin.com/in/dipenthaker', '_blank'); break; // Opens in new tab
                 case 'open-terminal': loadContent('terminal', '', 'Terminal - Home'); break;
             }
         });
