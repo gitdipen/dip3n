@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Content Loading Logic (CORE CHANGES HERE) ---
+    // --- Content Loading Logic ---
 
     // Helper to hide all content display elements
     function hideAllContentDivs() {
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 kali@kali:~$ Click on the icons or the Kali menu to explore.
 kali@kali:~$
 `;
-        } else if (type === 'resume') { // This 'resume' type is now unused if all resume calls use 'markdown-to-terminal'
+        } else if (type === 'resume') { // Used for PDF files
             contentIframe.style.display = 'block';
             contentIframe.src = path; // Load PDF directly into iframe
         } else if (type === 'html') {
@@ -170,10 +170,11 @@ kali@kali:~$
     // --- Icon Click Handlers & Menu Item Handlers ---
 
     // Desktop Icon Clicks
-    // UPDATED: Now loads resume as markdown in terminal
-    document.getElementById('resume-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'resume/README.md', 'Resume - Terminal View'));
-    // UPDATED: Now loads the main projects listing page
+    // UPDATED: Now loads the new resume PDF
+    document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'));
+    // Projects now loads the main projects listing page
     document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/index.html', 'My Projects'));
+    // Skills loads as markdown in terminal
     document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'));
     document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank'));
     document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank'));
@@ -186,9 +187,8 @@ kali@kali:~$
             kaliMenu.classList.add('hidden'); // Close menu
             const action = item.dataset.action;
             switch (action) {
-                // UPDATED: Now loads resume as markdown in terminal
-                case 'open-resume': loadContent('markdown-to-terminal', 'resume/README.md', 'Resume - Terminal View'); break;
-                // UPDATED: Now loads the main projects listing page
+                // UPDATED: Now loads the new resume PDF
+                case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break;
                 case 'open-projects': loadContent('html', 'projects/index.html', 'My Projects'); break;
                 case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break;
                 case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break;
