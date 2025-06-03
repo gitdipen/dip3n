@@ -26,3 +26,5 @@ This page outlines my technical and soft skills, reflecting my expertise in cybe
 * **VAPT Tools:** Nessus, Burp Suite, Nmap, Metasploit, Wireshark
 * **Endpoint Security:** SentinelOne, Harmony Point
 * **SIEM/Log Management:** Experience with event collection, log management, event monitoring
+
+
