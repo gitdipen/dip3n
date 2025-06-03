@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let isMaximized = false;
     let originalWindowPos = { top: 0, left: 0, width: 0, height: 0 };
 
+    // Determine the base path for GitHub Pages
+    // This handles cases where the site is served from a sub-directory (like /dip3n/)
+    const basePath = window.location.pathname.endsWith('/') 
+                     ? window.location.pathname 
+                     : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+
     // --- Taskbar Clock ---
     function updateClock() {
         const now = new Date();
@@ -119,6 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
         windowTitle.textContent = title; // Set window title
         hideAllContentDivs(); // Hide all previous content
 
+        // Construct the full path using basePath
+        const fullPath = path ? `${basePath}${path}` : '';
+
         if (type === 'terminal') {
             terminalOutputPre.style.display = 'block';
             terminalOutputPre.textContent = `kali@kali:~$ Welcome to Dipen's Cybersecurity Portfolio!
@@ -127,24 +136,24 @@ kali@kali:~$
 `;
         } else if (type === 'resume') { // Used for PDF files
             contentIframe.style.display = 'block';
-            contentIframe.src = path; // Load PDF directly into iframe
+            contentIframe.src = fullPath; // Load PDF directly into iframe
         } else if (type === 'html') {
             htmlContentDiv.style.display = 'block';
             try {
-                const response = await fetch(path);
+                const response = await fetch(fullPath); // Use fullPath here
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const html = await response.text();
                 htmlContentDiv.innerHTML = html;
             } catch (error) {
-                htmlContentDiv.innerHTML = `<p style="color: red;">Error loading content: ${error.message}</p><p>Please ensure the file '${path}' exists and is accessible.</p>`;
+                htmlContentDiv.innerHTML = `<p style="color: red;">Error loading content: ${error.message}</p><p>Please ensure the file '${fullPath}' exists and is accessible.</p>`;
                 console.error("Error loading HTML content:", error);
             }
         } else if (type === 'markdown-to-terminal') {
             terminalOutputPre.style.display = 'block';
             try {
-                const response = await fetch(path);
+                const response = await fetch(fullPath); // Use fullPath here
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -178,3 +187,25 @@ kali@kali:~$
     document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank'));
     document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank'));
     document.getElementById('terminal-icon').addEventListener('click', () => loadContent('terminal', '', 'Terminal - Home'));
+
+
+    // Kali Menu Item Clicks
+    kaliMenu.querySelectorAll('li').forEach(item => {
+        item.addEventListener('click', (event) => {
+            kaliMenu.classList.add('hidden'); // Close menu
+            const action = item.dataset.action;
+            switch (action) {
+                case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break;
+                case 'open-projects': loadContent('html', 'projects/index.html', 'My Projects'); break;
+                case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break;
+                case 'open-about': loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'); break;
+                case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break;
+                case 'open-linkedin': window.open('https://www.linkedin.com/in/dipenthaker', '_blank'); break;
+                case 'open-terminal': loadContent('terminal', '', 'Terminal - Home'); break;
+            }
+        });
+    });
+
+    // Initially show the terminal window
+    loadContent('terminal', '', 'Terminal - Home');
+});
