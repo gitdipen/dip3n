@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to load content into the window
     async function loadContent(type, path = '', title = 'Window') {
         contentWindow.classList.remove('hidden'); // Show the window
+        contentWindow.style.zIndex = '100'; // Bring to front
         windowTitle.textContent = title; // Set window title
         hideAllContentDivs(); // Hide all previous content
 
