@@ -5,75 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dipen Thaker - Cybersecurity Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/kali_icon.png">
 </head>
 <body>
-
     <div id="desktop">
         <div id="taskbar">
-            <div id="kali-menu-btn" class="taskbar-item">
-                <i class="fas fa-bars"></i> Kali
+            <div id="kali-menu-btn">
+                <img src="images/kali_menu_icon.png" alt="Kali Menu" class="icon">
+                <span>Applications</span>
             </div>
-            <div class="taskbar-item right-items">
-                <i class="fas fa-wifi"></i>
-                <i class="fas fa-volume-up"></i>
-                <span id="current-time"></span>
-            </div>
-        </div>
-
-        <div id="desktop-icons">
-            <div class="icon" id="resume-icon">
-                <i class="fas fa-file-pdf"></i>
-                <span>Resume</span>
-            </div>
-            <div class="icon" id="projects-icon">
-                <i class="fas fa-folder"></i>
-                <span>Projects</span>
-            </div>
-            <div class="icon" id="skills-icon">
-                <i class="fas fa-flask"></i>
-                <span>Skills</span>
-            </div>
-            <div class="icon" id="github-icon">
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-            </div>
-            <div class="icon" id="linkedin-icon">
-                <i class="fab fa-linkedin"></i>
-                <span>LinkedIn</span>
-            </div>
-            <div class="icon" id="terminal-icon">
-                <i class="fas fa-terminal"></i>
-                <span>Terminal</span>
-            </div>
-        </div>
-
-        <div id="content-window" class="window hidden">
-            <div class="window-header">
-                <span class="window-title"></span> <div class="window-controls">
-                    <button class="minimize-btn">_</button>
-                    <button class="maximize-btn">[]</button>
-                    <button class="close-btn">X</button>
-                </div>
-            </div>
-            <div class="window-body">
-                <iframe id="content-iframe" style="display: none;"></iframe>
-                <div id="html-content" style="display: none;"></div>
-                <pre id="terminal-output" style="display: none;"></pre>
-            </div>
+            <div id="current-time"></div>
         </div>
 
         <div id="kali-menu" class="hidden">
-            <ul>
+            <ul class="kali-menu-list">
+                <li data-action="open-terminal">Terminal</li>
                 <li data-action="open-resume">Resume</li>
                 <li data-action="open-projects">Projects</li>
                 <li data-action="open-skills">Skills</li>
-                <li data-action="open-github">GitHub Profile</li>
-                <li data-action="open-linkedin">LinkedIn Profile</li>
-                <li data-action="open-terminal">Terminal</li>
+                <li data-action="open-about">About Me</li> <li data-action="open-github">GitHub</li>
+                <li data-action="open-linkedin">LinkedIn</li>
             </ul>
         </div>
 
+        <div id="desktop-icons">
+            <div class="desktop-icon" id="terminal-icon">
+                <img src="images/terminal_icon.png" alt="Terminal">
+                <span>Terminal</span>
+            </div>
+            <div class="desktop-icon" id="resume-icon">
+                <img src="images/pdf_icon.png" alt="Resume">
+                <span>Resume</span>
+            </div>
+            <div class="desktop-icon" id="projects-icon">
+                <img src="images/folder_icon.png" alt="Projects">
+                <span>Projects</span>
+            </div>
+            <div class="desktop-icon" id="skills-icon">
+                <img src="images/skills_icon.png" alt="Skills">
+                <span>Skills</span>
+            </div>
+            <div class="desktop-icon" id="about-icon">
+                <img src="images/user_icon.png" alt="About Me"> <span>About Me</span>
+            </div>
+            <div class="desktop-icon" id="github-icon">
+                <img src="images/github_icon.png" alt="GitHub">
+                <span>GitHub</span>
+            </div>
+            <div class="desktop-icon" id="linkedin-icon">
+                <img src="images/linkedin_icon.png" alt="LinkedIn">
+                <span>LinkedIn</span>
+            </div>
+        </div>
+
+        <div id="content-window" class="hidden">
+            <div class="window-header">
+                <span class="window-title">Window</span>
+                <div class="window-controls">
+                    <button class="control-btn minimize-btn" title="Minimize">_</button>
+                    <button class="control-btn maximize-btn" title="Maximize">⬜</button>
+                    <button class="control-btn close-btn" title="Close">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe id="content-iframe"></iframe>
+                <div id="html-content"></div>
+                <pre id="terminal-output"></pre>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

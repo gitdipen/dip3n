@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to load content into the window
     async function loadContent(type, path = '', title = 'Window') {
         contentWindow.classList.remove('hidden'); // Show the window
+        contentWindow.style.zIndex = '100'; // Bring to front
         windowTitle.textContent = title; // Set window title
         hideAllContentDivs(); // Hide all previous content
 
@@ -170,12 +171,10 @@ kali@kali:~$
     // --- Icon Click Handlers & Menu Item Handlers ---
 
     // Desktop Icon Clicks
-    // UPDATED: Now loads the new resume PDF
     document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'));
-    // Projects now loads the main projects listing page
     document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/index.html', 'My Projects'));
-    // Skills loads as markdown in terminal
     document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'));
+    document.getElementById('about-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View')); // ADDED
     document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank'));
     document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank'));
     document.getElementById('terminal-icon').addEventListener('click', () => loadContent('terminal', '', 'Terminal - Home'));
@@ -187,10 +186,10 @@ kali@kali:~$
             kaliMenu.classList.add('hidden'); // Close menu
             const action = item.dataset.action;
             switch (action) {
-                // UPDATED: Now loads the new resume PDF
                 case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break;
                 case 'open-projects': loadContent('html', 'projects/index.html', 'My Projects'); break;
                 case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break;
+                case 'open-about': loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'); break; // ADDED
                 case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break;
                 case 'open-linkedin': window.open('https://www.linkedin.com/in/dipenthaker', '_blank'); break;
                 case 'open-terminal': loadContent('terminal', '', 'Terminal - Home'); break;

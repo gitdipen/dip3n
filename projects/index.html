@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Projects</title>
     <style>
+        /* Basic styling to fit the Kali theme */
         body {
-            font-family: 'Hack', 'Fira Code', 'Roboto Mono', monospace;
-            background-color: #1a1a1a;
-            color: #e0e0e0;
+            font-family: 'Roboto Mono', monospace; /* Consistent with terminal */
+            background-color: #1e1e1e; /* Dark background */
+            color: #e0e0e0; /* Light text */
             padding: 20px;
-            margin: 0;
+            line-height: 1.6;
+            overflow-y: auto; /* Enable scrolling */
         }
         h1 {
-            color: #007bff; /* Kali blue */
+            color: #00ff00; /* Kali green */
             font-size: 1.8em;
             margin-bottom: 20px;
         }
@@ -21,51 +23,57 @@
             list-style: none;
             padding: 0;
         }
-        .project-list li {
+        .project-item {
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
             margin-bottom: 15px;
-            background-color: #2e2e2e; /* Medium grey */
             padding: 15px;
             border-radius: 5px;
-            border: 1px solid #404040;
-            transition: background-color 0.2s;
         }
-        .project-list li:hover {
-            background-color: #404040; /* Light grey on hover */
+        .project-item h2 {
+            color: #00bfff; /* Light blue for project titles */
+            font-size: 1.4em;
+            margin-top: 0;
         }
-        .project-list li a {
-            color: #00ff00; /* Kali green for links */
+        .project-item p {
+            margin-bottom: 10px;
+        }
+        .project-item .links a {
+            color: #9370db; /* Medium purple for links */
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            display: block; /* Make the whole area clickable */
+            margin-right: 15px;
         }
-        .project-list li a:hover {
+        .project-item .links a:hover {
             text-decoration: underline;
-            color: #fff;
-        }
-        .project-list li p {
-            font-size: 0.9em;
-            color: #ccc;
-            margin-top: 5px;
-            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
-    <h1>Projects</h1>
+    <h1>My Cybersecurity Projects</h1>
+
     <ul class="project-list">
-        <li>
-            <a href="network-scanner/index.html">Python Network Scanner</a>
-            <p>A basic network scanner in Python for host discovery and port scanning, built with Scapy.</p>
+        <li class="project-item">
+            <h2>Network Scanner (Python)</h2>
+            <p>
+                A basic network scanner in Python, leveraging powerful libraries to perform host discovery and port scanning. Designed for educational purposes to understand network reconnaissance techniques used in ethical hacking.
+            </p>
+            <div class="links">
+                <a href="projects/network-scanner/index.html">View Details</a>
+                </div>
         </li>
-        <li>
-            <a href="my-cool-script/README.md">My Cool Script</a>
-            <p>A placeholder project description for another cool script.</p>
+
+        <li class="project-item">
+            <h2>Project Two (Coming Soon!)</h2>
+            <p>
+                Description of your second project will go here. It could be about incident response, malware analysis, or anything else you've worked on!
+            </p>
+            <div class="links">
+                </div>
         </li>
-        <li>
-            <a href="#">Coming Soon Project</a>
-            <p>Details about an upcoming project will be added here soon.</p>
-        </li>
-    </ul>
+
+        </ul>
+
+    <p>Stay tuned for more projects!</p>
+
 </body>
 </html>
