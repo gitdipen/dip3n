@@ -103,7 +103,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.5); /* Subtle border on hover */
 }
 
-/* Window Styles (for content-window) */
+/* Window Styles (generic for all windows) */
 .window {
     position: absolute;
     background-color: var(--kali-dark-grey);
@@ -111,19 +111,19 @@ body {
     border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column; /* IMPORTANT: This makes window-body respect flex-grow */
-    overflow: auto; /* Enable scrollbars for the window itself if content overflows */
+    flex-direction: column;
+    overflow: hidden; /* Prevent content from overflowing window boundaries, important for resize */
     z-index: 999; /* Below taskbar */
     resize: both; /* Allow resizing (will need JS to control) */
 
-    /* NEW: Responsive initial positioning and sizing for the window itself */
+    /* Default initial position and size - adjust as needed for each window instance in JS */
     top: 10vh;
     left: 10vw;
     width: 70vw;
     height: 70vh;
-    max-width: calc(100vw - 40px); /* Max width to prevent it from going off screen easily (accounting for taskbar) */
-    max-height: calc(100vh - 80px); /* Max height (accounting for taskbar and some margin) */
-    min-width: 400px; /* Still keep a sensible minimum */
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 80px);
+    min-width: 400px;
     min-height: 300px; /* Adjusted minimum height */
 }
 
@@ -137,6 +137,7 @@ body {
     cursor: grab; /* Indicates it's draggable */
     color: #fff;
     font-weight: bold;
+    flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .window-title {
@@ -160,79 +161,125 @@ body {
 .window-controls .maximize-btn:hover { background-color: #ff9900; } /* Orange */
 .window-controls .close-btn:hover { background-color: #ff0000; } /* Red */
 
-/* MODIFIED: .window-body for flex container and no internal padding */
+/* Window Body - Applies to all windows */
 .window-body {
-    padding: 0; /* Remove padding here, children will handle their own */
+    padding: 0; /* No padding here; children will handle it */
     flex-grow: 1; /* Allows it to fill remaining space in .window */
     background-color: var(--kali-dark-grey); /* Background for the content area */
-    overflow-y: auto; /* Handles scrolling for the window's content */
+    overflow: hidden; /* IMPORTANT: Keep overflow for body itself as hidden */
     position: relative;
     display: flex; /* Make window-body a flex container */
     flex-direction: column; /* Stack children vertically */
 }
 
-/* Styles for content loaded inside window-body */
-#content-iframe {
-    width: 100%;
-    height: 100%; /* Iframe needs explicit height to fill its container */
-    border: none; /* Remove default iframe border */
-    background-color: var(--kali-dark-grey); /* Fallback */
-    flex-grow: 1; /* Allow iframe to fill space when active */
-}
+/* Specific content container styles within window-body */
 
-/* MODIFIED: #html-content to have its own padding and flex-grow */
-#html-content {
-    width: 100%;
-    padding: 20px; /* Add specific padding for HTML content */
-    box-sizing: border-box; /* Include padding in width/height */
-    flex-grow: 1; /* Allow HTML content to fill space when active */
-    overflow-y: auto; /* Ensure scrolling within HTML content if it's too long */
-}
-
-#html-content h1, #html-content h2, #html-content h3 {
-    color: var(--kali-blue);
-    margin-top: 0.5em;
-    margin-bottom: 0.3em;
-}
-
-#html-content p {
-    margin-bottom: 0.5em;
-    line-height: 1.4;
-}
-
-#html-content ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-#html-content a {
-    color: var(--kali-green); /* Links in HTML content */
-    text-decoration: underline;
-}
-#html-content a:hover {
-    color: #fff;
-}
-
-/* MODIFIED: Terminal specific styles */
-#terminal-output {
+/* Terminal-specific container */
+#terminal-content {
     background-color: #000; /* Black background for terminal */
     color: var(--kali-green); /* Green text */
     font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
     font-size: 0.9em;
     white-space: pre-wrap; /* Preserves whitespace and wraps long lines */
-    /* REMOVED: min-height, let flex-grow determine height */
-    
-    /* CUSTOM PADDING for terminal - More top/side, less bottom */
-    padding: 20px 20px 10px 20px; /* Top Right Bottom Left */
-    margin: 0; /* Remove default pre margin */
-    border: 3px solid #333;
+    padding: 20px 20px 10px 20px; /* Custom padding: Top Right Bottom Left */
+    margin: 0;
+    /* Removed border to match screenshot, but added if you want it: border: 1px solid #333; */
     border-radius: 3px;
-    
-    flex-grow: 1; /* CRUCIAL: Makes it fill available vertical space */
+    flex-grow: 1; /* Makes it fill available vertical space within .window-body */
     overflow-x: auto; /* Keep horizontal scroll if line is too long */
+    overflow-y: auto; /* Allow terminal history to scroll */
     width: 100%; /* Ensure it takes full available width */
-    height: 100%; /* Ensure it fills the height of its parent */
+    height: 100%; /* Crucial to fill available height when not overflowing */
     box-sizing: border-box; /* Include padding/border in width/height */
+
+    display: flex; /* Make terminal-content a flex container itself */
+    flex-direction: column; /* Stack history and input vertically */
 }
+
+/* Terminal history display area */
+#terminal-history {
+    flex-grow: 1; /* Make history take up all available space */
+    /* No padding/margin here as it's handled by #terminal-content */
+}
+
+/* Terminal input line (prompt + input field) */
+.terminal-input-line {
+    display: flex; /* Align prompt and input horizontally */
+    align-items: baseline; /* Align text at the baseline */
+    flex-shrink: 0; /* Prevent the input line from shrinking */
+    padding-top: 5px; /* Small padding above the input line */
+}
+
+.terminal-input-line .prompt {
+    color: var(--kali-green); /* Green prompt text */
+    margin-right: 5px;
+    white-space: nowrap; /* Prevent prompt from wrapping */
+}
+
+.terminal-input {
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    color: var(--kali-green); /* Green text */
+    font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
+    font-size: 0.9em;
+    outline: none; /* Remove outline on focus */
+    flex-grow: 1; /* Allow input to take remaining width */
+    caret-color: var(--kali-green); /* Green blinking cursor */
+}
+
+/* Styles for HTML content loaded inside a window (e.g., projects, skills) */
+/* Apply general padding and max-width to readable content */
+#projects-html-content,
+#skills-html-content {
+    width: 100%; /* Take full width of parent */
+    height: 100%; /* Take full height of parent */
+    padding: 20px; /* Standard inner padding for readability */
+    box-sizing: border-box; /* Include padding in width/height */
+    overflow-y: auto; /* Enable vertical scrolling for content */
+}
+
+/* Add a max-width to prevent text lines from becoming too long and "stretched" */
+/* This will center the content if the window is very wide, making it more readable */
+#projects-html-content > *,
+#skills-html-content > * {
+    max-width: 800px; /* Limit content width for better readability */
+    margin-left: auto; /* Center the content within its container */
+    margin-right: auto; /* Center the content within its container */
+}
+
+
+#projects-html-content h1, #projects-html-content h2, #projects-html-content h3,
+#skills-html-content h1, #skills-html-content h2, #skills-html-content h3 {
+    color: var(--kali-blue);
+    margin-top: 0.5em;
+    margin-bottom: 0.3em;
+}
+
+#projects-html-content p, #skills-html-content p {
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+}
+
+#projects-html-content ul, #skills-html-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+#projects-html-content a, #skills-html-content a {
+    color: var(--kali-green); /* Links in HTML content */
+    text-decoration: underline;
+}
+#projects-html-content a:hover, #skills-html-content a:hover {
+    color: #fff;
+}
+
+/* Styles for iFrame content loaded inside a window (e.g., resume) */
+#resume-iframe {
+    width: 100%;
+    height: 100%; /* Iframe needs explicit height to fill its container */
+    border: none; /* Remove default iframe border */
+    background-color: var(--kali-dark-grey); /* Fallback */
+}
+
 
 /* Kali Menu Styles */
 #kali-menu {
@@ -268,8 +315,8 @@ body {
     background-color: var(--kali-light-grey);
 }
 
-/* Initially hide the content window */
-#content-window.hidden {
+/* Initially hide all windows */
+.window.hidden {
     display: none;
 }
 
