@@ -174,29 +174,7 @@ kali@kali:~$
     document.getElementById('resume-icon').addEventListener('click', () => loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'));
     document.getElementById('projects-icon').addEventListener('click', () => loadContent('html', 'projects/index.html', 'My Projects'));
     document.getElementById('skills-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'));
-    document.getElementById('about-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View')); // ADDED
+    document.getElementById('about-icon').addEventListener('click', () => loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'));
     document.getElementById('github-icon').addEventListener('click', () => window.open('https://github.com/gitdipen', '_blank'));
     document.getElementById('linkedin-icon').addEventListener('click', () => window.open('https://www.linkedin.com/in/dipenthaker', '_blank'));
     document.getElementById('terminal-icon').addEventListener('click', () => loadContent('terminal', '', 'Terminal - Home'));
-
-
-    // Kali Menu Item Clicks
-    kaliMenu.querySelectorAll('li').forEach(item => {
-        item.addEventListener('click', (event) => {
-            kaliMenu.classList.add('hidden'); // Close menu
-            const action = item.dataset.action;
-            switch (action) {
-                case 'open-resume': loadContent('resume', 'resume/Resume_Dipen_Thaker.pdf', 'Resume - Dipen Thaker'); break;
-                case 'open-projects': loadContent('html', 'projects/index.html', 'My Projects'); break;
-                case 'open-skills': loadContent('markdown-to-terminal', 'skills/README.md', 'Skills - Terminal View'); break;
-                case 'open-about': loadContent('markdown-to-terminal', 'about/README.md', 'About Me - Terminal View'); break; // ADDED
-                case 'open-github': window.open('https://github.com/gitdipen', '_blank'); break;
-                case 'open-linkedin': window.open('https://www.linkedin.com/in/dipenthaker', '_blank'); break;
-                case 'open-terminal': loadContent('terminal', '', 'Terminal - Home'); break;
-            }
-        });
-    });
-
-    // Initially show the terminal window
-    loadContent('terminal', '', 'Terminal - Home');
-});
