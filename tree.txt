@@ -1,0 +1,15 @@
+DIP3N
+├── Images
+│   └── kali_wallpaper.jpg
+├── projects
+│   └── project.html
+├── resume
+│   └── Resume_Dipen_Thaker.pdf
+├── skills
+│   └── skill.md
+├── home.html
+├── script.js
+├── style.css
+├── tree.txt
+├── welcome.txt     <-- Conceptual file referenced by terminal
+└── target-oscp.txt <-- Conceptual file referenced by terminal

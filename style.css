@@ -112,11 +112,10 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Prevent content from overflowing window boundaries, important for resize */
-    z-index: 999; /* Below taskbar */
-    resize: both; /* Allow resizing (will need JS to control) */
+    overflow: hidden; 
+    z-index: 999; 
+    resize: both; 
 
-    /* Default initial position and size - adjust as needed for each window instance in JS */
     top: 10vh;
     left: 10vw;
     width: 70vw;
@@ -124,7 +123,7 @@ body {
     max-width: calc(100vw - 40px);
     max-height: calc(100vh - 80px);
     min-width: 400px;
-    min-height: 300px; /* Adjusted minimum height */
+    min-height: 300px; 
 }
 
 .window-header {
@@ -134,10 +133,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: grab; /* Indicates it's draggable */
+    cursor: grab; 
     color: #fff;
     font-weight: bold;
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-shrink: 0; 
 }
 
 .window-title {
@@ -157,94 +156,98 @@ body {
     transition: background-color 0.2s;
 }
 
-.window-controls .minimize-btn:hover { background-color: #007bff; } /* Blue */
-.window-controls .maximize-btn:hover { background-color: #ff9900; } /* Orange */
-.window-controls .close-btn:hover { background-color: #ff0000; } /* Red */
+.window-controls .minimize-btn:hover { background-color: #007bff; } 
+.window-controls .maximize-btn:hover { background-color: #ff9900; } 
+.window-controls .close-btn:hover { background-color: #ff0000; } 
 
-/* Window Body - Applies to all windows */
 .window-body {
-    padding: 0; /* No padding here; children will handle it */
-    flex-grow: 1; /* Allows it to fill remaining space in .window */
-    background-color: var(--kali-dark-grey); /* Background for the content area */
-    overflow: hidden; /* IMPORTANT: Keep overflow for body itself as hidden */
+    padding: 0; 
+    flex-grow: 1; 
+    background-color: var(--kali-dark-grey); 
+    overflow: hidden; 
     position: relative;
-    display: flex; /* Make window-body a flex container */
-    flex-direction: column; /* Stack children vertically */
+    display: flex; 
+    flex-direction: column; 
 }
 
 /* Specific content container styles within window-body */
 
 /* Terminal-specific container */
 #terminal-content {
-    background-color: #000; /* Black background for terminal */
-    color: var(--kali-green); /* Green text */
+    background-color: #000; 
+    color: var(--kali-green); 
     font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
     font-size: 0.9em;
-    white-space: pre-wrap; /* Preserves whitespace and wraps long lines */
-    padding: 20px 20px 10px 20px; /* Custom padding: Top Right Bottom Left */
+    white-space: pre-wrap; 
+    padding: 20px 20px 10px 20px; 
     margin: 0;
-    /* Removed border to match screenshot, but added if you want it: border: 1px solid #333; */
     border-radius: 3px;
-    flex-grow: 1; /* Makes it fill available vertical space within .window-body */
-    overflow-x: auto; /* Keep horizontal scroll if line is too long */
-    overflow-y: auto; /* Allow terminal history to scroll */
-    width: 100%; /* Ensure it takes full available width */
-    height: 100%; /* Crucial to fill available height when not overflowing */
-    box-sizing: border-box; /* Include padding/border in width/height */
+    flex-grow: 1; 
+    overflow-x: auto; 
+    overflow-y: auto; 
+    width: 100%; 
+    height: 100%; 
+    box-sizing: border-box; 
 
-    display: flex; /* Make terminal-content a flex container itself */
-    flex-direction: column; /* Stack history and input vertically */
+    display: flex; 
+    flex-direction: column; 
 }
 
 /* Terminal history display area */
 #terminal-history {
-    flex-grow: 1; /* Make history take up all available space */
-    /* No padding/margin here as it's handled by #terminal-content */
+    flex-grow: 1; 
+    /* Add styling for font awesome icons within terminal history */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
+
+#terminal-history .fas {
+    color: var(--kali-green); /* Ensure icons in terminal are green */
+    margin-right: 5px;
 }
 
 /* Terminal input line (prompt + input field) */
 .terminal-input-line {
-    display: flex; /* Align prompt and input horizontally */
-    align-items: baseline; /* Align text at the baseline */
-    flex-shrink: 0; /* Prevent the input line from shrinking */
-    padding-top: 5px; /* Small padding above the input line */
+    display: flex; 
+    align-items: baseline; 
+    flex-shrink: 0; 
+    padding-top: 5px; 
 }
 
 .terminal-input-line .prompt {
-    color: var(--kali-green); /* Green prompt text */
+    color: var(--kali-green); 
     margin-right: 5px;
-    white-space: nowrap; /* Prevent prompt from wrapping */
+    white-space: nowrap; 
 }
 
 .terminal-input {
-    background-color: transparent; /* No background */
-    border: none; /* No border */
-    color: var(--kali-green); /* Green text */
+    background-color: transparent; 
+    border: none; 
+    color: var(--kali-green); 
     font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
     font-size: 0.9em;
-    outline: none; /* Remove outline on focus */
-    flex-grow: 1; /* Allow input to take remaining width */
-    caret-color: var(--kali-green); /* Green blinking cursor */
+    outline: none; 
+    flex-grow: 1; 
+    caret-color: var(--kali-green); 
 }
 
 /* Styles for HTML content loaded inside a window (e.g., projects, skills) */
 /* Apply general padding and max-width to readable content */
 #projects-html-content,
 #skills-html-content {
-    width: 100%; /* Take full width of parent */
-    height: 100%; /* Take full height of parent */
-    padding: 20px; /* Standard inner padding for readability */
-    box-sizing: border-box; /* Include padding in width/height */
-    overflow-y: auto; /* Enable vertical scrolling for content */
+    width: 100%; 
+    height: 100%; 
+    padding: 20px; 
+    box-sizing: border-box; 
+    overflow-y: auto; 
 }
 
 /* Add a max-width to prevent text lines from becoming too long and "stretched" */
 /* This will center the content if the window is very wide, making it more readable */
 #projects-html-content > *,
 #skills-html-content > * {
-    max-width: 800px; /* Limit content width for better readability */
-    margin-left: auto; /* Center the content within its container */
-    margin-right: auto; /* Center the content within its container */
+    max-width: 800px; 
+    margin-left: auto; 
+    margin-right: auto; 
 }
 
 
@@ -265,7 +268,7 @@ body {
     margin-left: 20px;
 }
 #projects-html-content a, #skills-html-content a {
-    color: var(--kali-green); /* Links in HTML content */
+    color: var(--kali-green); 
     text-decoration: underline;
 }
 #projects-html-content a:hover, #skills-html-content a:hover {
@@ -275,16 +278,16 @@ body {
 /* Styles for iFrame content loaded inside a window (e.g., resume) */
 #resume-iframe {
     width: 100%;
-    height: 100%; /* Iframe needs explicit height to fill its container */
-    border: none; /* Remove default iframe border */
-    background-color: var(--kali-dark-grey); /* Fallback */
+    height: 100%; 
+    border: none; 
+    background-color: var(--kali-dark-grey); 
 }
 
 
 /* Kali Menu Styles */
 #kali-menu {
     position: absolute;
-    top: 40px; /* Below taskbar */
+    top: 40px; 
     left: 0;
     background-color: var(--kali-dark-grey);
     border: 1px solid var(--kali-light-grey);

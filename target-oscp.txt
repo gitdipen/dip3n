@@ -1,0 +1,32 @@
+# OSCP Certification Roadmap
+
+## Phase 1: Foundational Knowledge
+* Networking Basics (TCP/IP, OSI Model, Subnetting)
+* Linux Fundamentals (CLI, Permissions, Services)
+* Windows Fundamentals (AD, PowerShell Basics)
+* Python Scripting for Pentesters (basic automation, parsing)
+
+## Phase 2: Core Offensive Security
+* Vulnerability Scanning (Nessus, OpenVAS)
+* Information Gathering (Nmap, enumeration tools)
+* Web Application Exploitation (OWASP Top 10, Burp Suite)
+    * SQL Injection, XSS, Command Injection, File Upload Vulns
+* Buffer Overflows (basic understanding, practical examples)
+* Privilege Escalation (Linux & Windows techniques)
+* Metasploit Framework (essentials, module usage)
+
+## Phase 3: Advanced Topics & Practice
+* Active Directory Exploitation
+* Bypassing Security Controls (AV, Firewalls)
+* Post-Exploitation Techniques
+* Custom Scripting for specific exploits
+* Practice Labs (Hack The Box, TryHackMe, Proving Grounds)
+
+## Phase 4: Exam Preparation
+* OffSec Labs (PWK/PEN-200 labs)
+* Organized note-taking
+* Time management strategies
+* Report writing practice
+
+## Tools to Master:
+Nmap, Metasploit, Burp Suite, Nessus, Impacket, BloodHound, CrackMapExec, PowerShell Empire, Wireshark, etc.

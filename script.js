@@ -30,8 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
         const day = now.getDate().toString().padStart(2, '0');
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
-        currentTimeSpan.textContent = `${hours}:${minutes} PM | Jun ${day}`;
+        // Get month as short string (e.g., "Jun")
+        const monthShort = now.toLocaleString('en-US', { month: 'short' }); 
+        const ampm = hours >= 12 ? 'PM' : 'AM'; 
+        const displayHours = hours % 12 || 12; 
+        currentTimeSpan.textContent = `${displayHours}:${minutes} ${ampm} | ${monthShort} ${day}`;
     }
     setInterval(updateTime, 1000);
     updateTime(); // Initial call
@@ -54,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let isDragging = false;
         let offsetX, offsetY;
         let isMaximized = false;
-        let originalWindowRect = {}; // Stores original position/size before maximize
+        let originalWindowRect = {}; 
 
         const header = windowElement.querySelector('.window-header');
         const minimizeBtn = windowElement.querySelector('.minimize-btn');
@@ -68,28 +71,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Dragging
         header.addEventListener('mousedown', (e) => {
-            if (isMaximized) return; // Prevent dragging when maximized
+            if (isMaximized) return; 
             isDragging = true;
-            // Calculate offset relative to the window's current position
             offsetX = e.clientX - windowElement.getBoundingClientRect().left;
             offsetY = e.clientY - windowElement.getBoundingClientRect().top;
             windowElement.style.cursor = 'grabbing';
-            bringToFront(windowElement); // Bring to front when dragging starts
+            bringToFront(windowElement); 
         });
 
         desktop.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            // Ensure window stays within desktop bounds (optional, but good UX)
             let newLeft = e.clientX - offsetX;
             let newTop = e.clientY - offsetY;
 
-            // Clamp left position
             if (newLeft < 0) newLeft = 0;
             if (newLeft + windowElement.offsetWidth > desktop.offsetWidth) {
                 newLeft = desktop.offsetWidth - windowElement.offsetWidth;
             }
 
-            // Clamp top position (below taskbar)
             if (newTop < taskbar.offsetHeight) newTop = taskbar.offsetHeight;
             if (newTop + windowElement.offsetHeight > desktop.offsetHeight) {
                 newTop = desktop.offsetHeight - windowElement.offsetHeight;
@@ -107,14 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Controls
         closeBtn.addEventListener('click', () => {
             windowElement.classList.add('hidden');
-            // Remove from activeWindows array
             activeWindows = activeWindows.filter(win => win !== windowElement);
-            // Specific clear for terminal
             if (windowElement === terminalWindow) {
-                terminalHistory.innerHTML = ''; // Clear terminal history
-                initializeTerminal(); // Re-initialize terminal messages
+                terminalHistory.innerHTML = ''; 
+                initializeTerminal(); 
             }
-            // Clear content for other windows to ensure fresh load next time
             if (windowElement === projectsWindow) projectsHtmlContent.innerHTML = '';
             if (windowElement === skillsWindow) skillsHtmlContent.innerHTML = '';
             if (windowElement === resumeWindow) resumeIframe.src = 'about:blank';
@@ -122,85 +118,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
         minimizeBtn.addEventListener('click', () => {
             windowElement.classList.add('hidden');
-            // In a real OS, you'd add it to a taskbar minimized list
         });
 
         maximizeBtn.addEventListener('click', () => {
             if (!isMaximized) {
-                // Save original position and size
                 originalWindowRect = {
                     top: windowElement.style.top,
                     left: windowElement.style.left,
                     width: windowElement.style.width,
                     height: windowElement.style.height,
                 };
-                // Maximize
-                windowElement.style.top = `${taskbar.offsetHeight}px`; // Below taskbar
+                windowElement.style.top = `${taskbar.offsetHeight}px`;
                 windowElement.style.left = '0';
                 windowElement.style.width = '100vw';
                 windowElement.style.height = `calc(100vh - ${taskbar.offsetHeight}px)`;
-                windowElement.style.resize = 'none'; // Disable resize when maximized
-                maximizeBtn.innerHTML = '<i class="fas fa-compress-alt"></i>'; // Change icon to restore
+                windowElement.style.resize = 'none'; 
+                maximizeBtn.innerHTML = '<i class="fas fa-compress-alt"></i>'; 
             } else {
-                // Restore
                 windowElement.style.top = originalWindowRect.top;
                 windowElement.style.left = originalWindowRect.left;
                 windowElement.style.width = originalWindowRect.width;
                 windowElement.style.height = originalWindowRect.height;
-                windowElement.style.resize = 'both'; // Enable resize
-                maximizeBtn.innerHTML = '<i class="fas fa-square"></i>'; // Change icon to maximize
+                windowElement.style.resize = 'both'; 
+                maximizeBtn.innerHTML = '<i class="fas fa-square"></i>'; 
             }
             isMaximized = !isMaximized;
         });
 
-        // Set default initial position/size if not already set by CSS
-        // This ensures they appear consistently when first opened
         if (!windowElement.style.top) windowElement.style.top = '10vh';
         if (!windowElement.style.left) windowElement.style.left = '10vw';
         if (!windowElement.style.width) windowElement.style.width = '70vw';
         if (!windowElement.style.height) windowElement.style.height = '70vh';
     }
 
-    // Initialize all window elements for dragging and controls
     setupWindow(terminalWindow);
     setupWindow(projectsWindow);
     setupWindow(resumeWindow);
     setupWindow(skillsWindow);
 
 
-    // Function to bring a window to the front
     function bringToFront(windowElement) {
-        // Remove from current position and add to end to ensure highest z-index
         activeWindows = activeWindows.filter(win => win !== windowElement);
         activeWindows.push(windowElement);
         activeWindows.forEach((win, index) => {
-            win.style.zIndex = 999 + index; // Assign increasing z-index
+            win.style.zIndex = 999 + index; 
         });
     }
 
-    // --- Function to open/show a specific window and load its content ---
     function openSpecificWindow(windowElement, title, contentPath = '') {
-        windowElement.classList.remove('hidden'); // Show the window
-        windowElement.querySelector('.window-title').textContent = title; // Set its title
-        bringToFront(windowElement); // Bring it to the front
+        windowElement.classList.remove('hidden'); 
+        windowElement.querySelector('.window-title').textContent = title; // Update title here
+        bringToFront(windowElement); 
 
-        // Reset to non-maximized state when opening new content
         const maximizeBtn = windowElement.querySelector('.maximize-btn');
         if (maximizeBtn.innerHTML.includes('compress-alt')) {
-            maximizeBtn.click(); // Simulate click to restore
+            maximizeBtn.click(); 
         }
 
-        // Specific content loading logic
         if (windowElement === terminalWindow) {
             initializeTerminal();
             terminalInput.focus();
         } else if (windowElement === projectsWindow) {
             if (projectsHtmlContent.innerHTML === '' || contentPath !== projectsHtmlContent.dataset.loadedPath) {
-                fetch(contentPath)
+                fetch('projects/project.html') 
                     .then(response => response.text())
                     .then(html => {
                         projectsHtmlContent.innerHTML = html;
-                        projectsHtmlContent.dataset.loadedPath = contentPath;
+                        projectsHtmlContent.dataset.loadedPath = contentPath; 
                     })
                     .catch(error => {
                         projectsHtmlContent.innerHTML = `<p style="color:red;">Error loading content: ${error}</p>`;
@@ -213,9 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 resumeIframe.src = contentPath;
             }
         } else if (windowElement === skillsWindow) {
-            // Check if content is already loaded or if the path has changed
             if (skillsHtmlContent.innerHTML === '' || contentPath !== skillsHtmlContent.dataset.loadedPath) {
-                fetch(contentPath)
+                fetch('skills/skill.md') 
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -223,9 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         return response.text();
                     })
                     .then(markdownText => {
-                        // Use marked.js to convert Markdown to HTML
                         skillsHtmlContent.innerHTML = marked.parse(markdownText);
-                        skillsHtmlContent.dataset.loadedPath = contentPath; // Store loaded path
+                        skillsHtmlContent.dataset.loadedPath = contentPath; 
                     })
                     .catch(error => {
                         skillsHtmlContent.innerHTML = `<p style="color:red;">Error loading content: ${error}. Make sure the Markdown parser library (marked.js) is included.</p>`;
@@ -238,25 +220,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Terminal Specific Logic ---
-    const initialTerminalLines = [
-        "H3ll0 W0RLD!!!",
-        "Welcome to Dipen's Cybersecurity Portfolio!",
-        "Click on the icons or the Kali menu to explore."
-    ];
+    const customPrompt = '(dipen@kali)~[~]$'; // New custom prompt
+
+    const welcomeMessage = `
+┌─(dipen@kali)-[~]
+└─$ whoami
+dipen
+┌─(dipen@kali)-[~]
+└─$ cat welcome.txt
+
+  ┌───────────────────────────────────────────────┐
+  │         Welcome to Dipen's Portfolio          │
+  │            Cybersecurity Specialist           │
+  └───────────────────────────────────────────────┘
+
+ <i class="fas fa-lock" style="color: #00ff00;"></i> Current Focus: OSCP Certification Preparation
+ <i class="fas fa-user-secret" style="color: #00ff00;"></i> Specializations: Penetration Testing | Ethical Hacking
+ <i class="fas fa-heart" style="color: #00ff00;"></i> Passionate about: Red Team Operations | Blue Team Defense
+
+ <i class="fas fa-folder-open" style="color: #00ff00;"></i> Available Files:
+  • resume.pdf        - Professional experience & education
+  • projects/         - Cybersecurity projects & writeups
+  • skills/skill.md   - Technical skills & tools
+  • target-oscp.txt   - Certification roadmap
+
+ <i class="fas fa-lightbulb" style="color: #00ff00;"></i> Tip: Double-click any desktop icon to explore!
+ Use the menubar at the top for quick access to applications
+`;
 
     function appendToTerminal(text, isCommand = false) {
         const line = document.createElement('div');
         if (isCommand) {
-            line.innerHTML = `<span class="prompt">kali@kali:~$</span> ${text}`;
+            line.innerHTML = `<span class="prompt">${customPrompt}</span> ${text}`;
         } else {
-            line.textContent = text;
+            line.innerHTML = text; // Use innerHTML to allow for Font Awesome icons in welcome message
         }
         terminalHistory.appendChild(line);
-        terminalHistory.scrollTop = terminalHistory.scrollHeight; // Scroll to bottom
+        terminalHistory.scrollTop = terminalHistory.scrollHeight; 
     }
 
     function handleCommand(command) {
-        appendToTerminal(command, true); // Show the command typed by user
+        appendToTerminal(command, true); 
 
         let output = "";
         const lowerCommand = command.toLowerCase().trim();
@@ -264,57 +268,102 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lowerCommand === 'ifconfig') {
             output = "Ifconfig? Oh, it's like a secret handshake for network cards. \"Hey, what's your address? And don't forget your mask!\" - *winks in binary*";
         } else if (lowerCommand === 'clear') {
-            terminalHistory.innerHTML = ''; // Clear history
-            return; // Don't append empty line
+            terminalHistory.innerHTML = ''; 
+            return; 
         } else if (lowerCommand === 'help') {
-            output = "Available commands: ifconfig, clear, help";
+            output = `
+Available commands:
+  <span style="color: #00ff00;">ifconfig</span>   - Show network interface details
+  <span style="color: #00ff00;">clear</span>      - Clear the terminal screen
+  <span style="color: #00ff00;">help</span>       - Display this help message
+  <span style="color: #00ff00;">ls</span>         - List directory contents
+  <span style="color: #00ff00;">pwd</span>        - Print working directory
+  <span style="color: #00ff00;">whoami</span>     - Display current username
+  <span style="color: #00ff00;">cat &lt;file&gt;</span> - Display file content (e.g., cat skills/skill.md, cat tree.txt, cat welcome.txt)
+  <span style="color: #00ff00;">cd &lt;dir&gt;</span>   - Change directory (e.g., cd projects, cd skills, cd resume)`;
+        } else if (lowerCommand === 'ls') { 
+             output = `home.html  script.js  style.css  Images/  projects/  resume/  skills/  tree.txt`;
+        } else if (lowerCommand === 'cd projects') { 
+            openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html');
+            output = `Opened projects window.`;
+        } else if (lowerCommand === 'cd skills') { 
+            openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md');
+            output = `Opened skills window.`;
+        } else if (lowerCommand === 'cd resume') { 
+            openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
+            output = `Opened resume window.`;
+        } else if (lowerCommand.startsWith('cat ')) { 
+            const filePath = lowerCommand.substring(4).trim();
+            if (filePath === 'skills/skill.md') {
+                fetch('skills/skill.md')
+                    .then(response => response.text())
+                    .then(text => appendToTerminal(text))
+                    .catch(error => appendToTerminal(`Error reading file: ${filePath}`));
+                return;
+            } else if (filePath === 'tree.txt') {
+                 fetch('tree.txt')
+                    .then(response => response.text())
+                    .then(text => {
+                        // Replace directory indicators for better terminal display
+                        const formattedText = text.replace(/├──/g, '├─').replace(/└──/g, '└─');
+                        appendToTerminal(formattedText);
+                    })
+                    .catch(error => appendToTerminal(`Error reading file: ${filePath}`));
+                return;
+            } else if (filePath === 'welcome.txt') { // Handle cat welcome.txt
+                appendToTerminal(welcomeMessage); // Directly output the welcome message
+                return;
+            } else {
+                output = `cat: ${filePath}: No such file or directory or cannot read this file type.`;
+            }
+        } else if (lowerCommand === 'pwd') { 
+             output = `/`;
+        } else if (lowerCommand === 'whoami') { 
+            output = `dipen`; // Changed to 'dipen'
         } else {
-            output = `Command not found: ${command}`;
+            output = `Command not found: ${command}<br>Type 'help' to see available commands.`; // Enhanced unknown command message
         }
         appendToTerminal(output);
     }
 
     function initializeTerminal() {
-        terminalHistory.innerHTML = ''; // Clear any previous state
-        initialTerminalLines.forEach(line => appendToTerminal(line));
-        terminalInput.value = ''; // Clear input field
+        terminalHistory.innerHTML = ''; 
+        appendToTerminal(welcomeMessage); // Display welcome message initially
+        terminalInput.value = ''; 
+        terminalInput.focus(); // Ensure input is focused on open
     }
 
-    // Event listener for terminal input
     terminalInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Prevent default form submission/new line
+            e.preventDefault(); 
             const command = terminalInput.value.trim();
-            terminalInput.value = ''; // Clear input field
+            terminalInput.value = ''; 
 
             if (command) {
                 handleCommand(command);
             } else {
-                // If user just presses Enter, just add a new prompt line
                 appendToTerminal("", true);
             }
         }
     });
 
-    // --- Event Listeners for Icons and Menu ---
     desktopIcons.querySelectorAll('.icon').forEach(icon => {
         icon.addEventListener('click', () => {
             const action = icon.dataset.action;
             if (action === 'open-terminal') {
-                openSpecificWindow(terminalWindow, 'Terminal - Home');
+                openSpecificWindow(terminalWindow, 'Terminal'); // Changed title here
             } else if (action === 'open-projects') {
-                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/index.html');
+                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); 
             } else if (action === 'open-skills') {
-                // CORRECTED: Point to README.md as per file structure
-                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/README.md');
+                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); 
             } else if (action === 'open-github') {
-                window.open('https://github.com/gitdipen', '_blank'); // Open in new tab
+                window.open('https://github.com/gitdipen', '_blank'); 
             } else if (action === 'open-linkedin') {
-                window.open('https://linkedin.com/in/yourprofile', '_blank'); // Update with your LinkedIn
+                window.open('https://linkedin.com/in/yourprofile', '_blank'); 
             } else if (action === 'open-resume') {
                 openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
             }
-            kaliMenu.classList.add('hidden'); // Close menu after selection
+            kaliMenu.classList.add('hidden'); 
         });
     });
 
@@ -322,22 +371,21 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             const action = item.dataset.action;
             if (action === 'open-terminal') {
-                openSpecificWindow(terminalWindow, 'Terminal - Home');
+                openSpecificWindow(terminalWindow, 'Terminal'); // Changed title here
             } else if (action === 'open-projects') {
-                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/index.html');
+                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); 
             } else if (action === 'open-skills') {
-                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/README.md');
-            } else if (action === 'open-resume') { // Added resume to Kali menu as well
+                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); 
+            } else if (action === 'open-resume') { 
                 openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
-            } else if (action === 'open-github') { // Added github to Kali menu as well
+            } else if (action === 'open-github') { 
                 window.open('https://github.com/gitdipen', '_blank');
-            } else if (action === 'open-linkedin') { // Added linkedin to Kali menu as well
+            } else if (action === 'open-linkedin') { 
                 window.open('https://linkedin.com/in/yourprofile', '_blank');
             }
-            kaliMenu.classList.add('hidden'); // Close menu after selection
+            kaliMenu.classList.add('hidden'); 
         });
     });
 
-    // Initialize the terminal when the page loads
     initializeTerminal();
 });
