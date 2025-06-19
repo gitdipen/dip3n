@@ -231,10 +231,10 @@ dipen
 ┌─(dipen@kali)-[~]
 └─$ cat welcome.txt
 
-─────────────────────────────────────────────────
+───────────────────────────────────────────────────────────
               Welcome to Dipen's Portfolio
                 Cybersecurity Professional
-─────────────────────────────────────────────────
+───────────────────────────────────────────────────────────
 
 <i class="fas fa-lock" style="color: #00ff00;"></i>  Current Focus: OSCP Certification Preparation
 <i class="fas fa-user-secret" style="color: #00ff00;"></i>  Specializations: Penetration Testing | Ethical Hacking
