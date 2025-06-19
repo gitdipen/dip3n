@@ -31,9 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const minutes = now.getMinutes().toString().padStart(2, '0');
         const day = now.getDate().toString().padStart(2, '0');
         // Get month as short string (e.g., "Jun")
-        const monthShort = now.toLocaleString('en-US', { month: 'short' }); 
-        const ampm = hours >= 12 ? 'PM' : 'AM'; 
-        const displayHours = hours % 12 || 12; 
+        const monthShort = now.toLocaleString('en-US', { month: 'short' });
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const displayHours = hours % 12 || 12;
         currentTimeSpan.textContent = `${displayHours}:${minutes} ${ampm} | ${monthShort} ${day}`;
     }
     setInterval(updateTime, 1000);
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let isDragging = false;
         let offsetX, offsetY;
         let isMaximized = false;
-        let originalWindowRect = {}; 
+        let originalWindowRect = {};
 
         const header = windowElement.querySelector('.window-header');
         const minimizeBtn = windowElement.querySelector('.minimize-btn');
@@ -71,12 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Dragging
         header.addEventListener('mousedown', (e) => {
-            if (isMaximized) return; 
+            if (isMaximized) return;
             isDragging = true;
             offsetX = e.clientX - windowElement.getBoundingClientRect().left;
             offsetY = e.clientY - windowElement.getBoundingClientRect().top;
             windowElement.style.cursor = 'grabbing';
-            bringToFront(windowElement); 
+            bringToFront(windowElement);
         });
 
         desktop.addEventListener('mousemove', (e) => {
@@ -108,8 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             windowElement.classList.add('hidden');
             activeWindows = activeWindows.filter(win => win !== windowElement);
             if (windowElement === terminalWindow) {
-                terminalHistory.innerHTML = ''; 
-                initializeTerminal(); 
+                terminalHistory.innerHTML = '';
+                initializeTerminal();
             }
             if (windowElement === projectsWindow) projectsHtmlContent.innerHTML = '';
             if (windowElement === skillsWindow) skillsHtmlContent.innerHTML = '';
@@ -132,15 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 windowElement.style.left = '0';
                 windowElement.style.width = '100vw';
                 windowElement.style.height = `calc(100vh - ${taskbar.offsetHeight}px)`;
-                windowElement.style.resize = 'none'; 
-                maximizeBtn.innerHTML = '<i class="fas fa-compress-alt"></i>'; 
+                windowElement.style.resize = 'none';
+                maximizeBtn.innerHTML = '<i class="fas fa-compress-alt"></i>';
             } else {
                 windowElement.style.top = originalWindowRect.top;
                 windowElement.style.left = originalWindowRect.left;
                 windowElement.style.width = originalWindowRect.width;
                 windowElement.style.height = originalWindowRect.height;
-                windowElement.style.resize = 'both'; 
-                maximizeBtn.innerHTML = '<i class="fas fa-square"></i>'; 
+                windowElement.style.resize = 'both';
+                maximizeBtn.innerHTML = '<i class="fas fa-square"></i>';
             }
             isMaximized = !isMaximized;
         });
@@ -161,31 +161,30 @@ document.addEventListener('DOMContentLoaded', () => {
         activeWindows = activeWindows.filter(win => win !== windowElement);
         activeWindows.push(windowElement);
         activeWindows.forEach((win, index) => {
-            win.style.zIndex = 999 + index; 
+            win.style.zIndex = 999 + index;
         });
     }
 
     function openSpecificWindow(windowElement, title, contentPath = '') {
-        windowElement.classList.remove('hidden'); 
-        windowElement.querySelector('.window-title').textContent = title; // Update title here
-        bringToFront(windowElement); 
+        windowElement.classList.remove('hidden');
+        windowElement.querySelector('.window-title').textContent = title;
+        bringToFront(windowElement);
 
         const maximizeBtn = windowElement.querySelector('.maximize-btn');
         if (maximizeBtn.innerHTML.includes('compress-alt')) {
-            maximizeBtn.click(); 
+            maximizeBtn.click();
         }
 
         if (windowElement === terminalWindow) {
             initializeTerminal();
             terminalInput.focus();
         } else if (windowElement === projectsWindow) {
-            // Corrected path to project.html
             if (projectsHtmlContent.innerHTML === '' || contentPath !== projectsHtmlContent.dataset.loadedPath) {
-                fetch('projects/project.html') 
+                fetch('projects/project.html')
                     .then(response => response.text())
                     .then(html => {
                         projectsHtmlContent.innerHTML = html;
-                        projectsHtmlContent.dataset.loadedPath = contentPath; 
+                        projectsHtmlContent.dataset.loadedPath = contentPath;
                     })
                     .catch(error => {
                         projectsHtmlContent.innerHTML = `<p style="color:red;">Error loading content: ${error}</p>`;
@@ -194,14 +193,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             projectsHtmlContent.scrollTop = 0;
         } else if (windowElement === resumeWindow) {
-            // Ensure path to PDF is correct and case-sensitive
-            if (resumeIframe.src !== window.location.origin + '/dip3n/' + contentPath) { // Adjusted for repository path
-                resumeIframe.src = contentPath;
+            const fullPdfPath = window.location.origin + window.location.pathname.replace(/\/$/, '') + '/' + contentPath;
+            if (resumeIframe.src !== fullPdfPath) {
+                 resumeIframe.src = contentPath;
             }
         } else if (windowElement === skillsWindow) {
-            // Corrected path to skill.md
             if (skillsHtmlContent.innerHTML === '' || contentPath !== skillsHtmlContent.dataset.loadedPath) {
-                fetch('skills/skill.md') 
+                fetch('skills/skill.md')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -210,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .then(markdownText => {
                         skillsHtmlContent.innerHTML = marked.parse(markdownText);
-                        skillsHtmlContent.dataset.loadedPath = contentPath; 
+                        skillsHtmlContent.dataset.loadedPath = contentPath;
                     })
                     .catch(error => {
                         skillsHtmlContent.innerHTML = `<p style="color:red;">Error loading content: ${error}. Make sure the Markdown parser library (marked.js) is included.</p>`;
@@ -223,8 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Terminal Specific Logic ---
-    const customPrompt = '(dipen@kali)~[~]$'; // New custom prompt
+    const customPrompt = '(dipen@kali)~[]$'; // New custom prompt
 
+    // Simplified ASCII art for better rendering consistency
     const welcomeMessage = `
 ┌─(dipen@kali)-[~]
 └─$ whoami
@@ -232,23 +231,24 @@ dipen
 ┌─(dipen@kali)-[~]
 └─$ cat welcome.txt
 
-  ┌───────────────────────────────────────────────┐
-  │         Welcome to Dipen's Portfolio          │
-  │           Cybersecurity Specialist            │
-  └───────────────────────────────────────────────┘
+─────────────────────────────────────────────────
+              Welcome to Dipen's Portfolio
+                Cybersecurity Specialist
+─────────────────────────────────────────────────
 
- <i class="fas fa-lock" style="color: #00ff00;"></i> Current Focus: OSCP Certification Preparation
- <i class="fas fa-user-secret" style="color: #00ff00;"></i> Specializations: Penetration Testing | Ethical Hacking
- <i class="fas fa-heart" style="color: #00ff00;"></i> Passionate about: Red Team Operations | Blue Team Defense
+<i class="fas fa-lock" style="color: #00ff00;"></i>  Current Focus: OSCP Certification Preparation
+<i class="fas fa-user-secret" style="color: #00ff00;"></i> Specializations: Penetration Testing | Ethical Hacking
+<i class="fas fa-heart" style="color: #00ff00;"></i>  Passionate about: Red Team Operations | Blue Team Defense
 
- <i class="fas fa-folder-open" style="color: #00ff00;"></i> Available Files:
-  • resume/Resume_Dipen_Thaker.pdf  - Professional experience & education
-  • projects/                   - Cybersecurity projects & writeups
-  • skills/skill.md           - Technical skills & tools
-  • tree.txt                  - Certification roadmap
+<i class="fas fa-folder-open" style="color: #00ff00;"></i>  Available Files:
+    • resume/Resume_Dipen_Thaker.pdf - Professional experience & education
+    • projects/                  - Cybersecurity projects & writeups
+    • skills/skill.md          - Technical skills & tools
+    • tree.txt                 - Certification roadmap
 
- <i class="fas fa-lightbulb" style="color: #00ff00;"></i> Tip: Double-click any desktop icon to explore!
-  Use the menubar at the top for quick access to applications
+<i class="fas fa-lightbulb" style="color: #00ff00;"></i>  Tip: Double-click any desktop icon to explore!
+    Use the menubar at the top for quick access to applications
+─────────────────────────────────────────────────
 `;
 
     function appendToTerminal(text, isCommand = false) {
@@ -256,14 +256,14 @@ dipen
         if (isCommand) {
             line.innerHTML = `<span class="prompt">${customPrompt}</span> ${text}`;
         } else {
-            line.innerHTML = text; // Use innerHTML to allow for Font Awesome icons in welcome message
+            line.innerHTML = text;
         }
         terminalHistory.appendChild(line);
-        terminalHistory.scrollTop = terminalHistory.scrollHeight; 
+        terminalHistory.scrollTop = terminalHistory.scrollHeight;
     }
 
     function handleCommand(command) {
-        appendToTerminal(command, true); 
+        appendToTerminal(command, true);
 
         let output = "";
         const lowerCommand = command.toLowerCase().trim();
@@ -271,8 +271,8 @@ dipen
         if (lowerCommand === 'ifconfig') {
             output = "Ifconfig? Oh, it's like a secret handshake for network cards. \"Hey, what's your address? And don't forget your mask!\" - *winks in binary*";
         } else if (lowerCommand === 'clear') {
-            terminalHistory.innerHTML = ''; 
-            return; 
+            terminalHistory.innerHTML = '';
+            return;
         } else if (lowerCommand === 'help') {
             output = `
 Available commands:
@@ -284,21 +284,21 @@ Available commands:
   <span style="color: #00ff00;">whoami</span>     - Display current username
   <span style="color: #00ff00;">cat &lt;file&gt;</span> - Display file content (e.g., cat skills/skill.md, cat tree.txt, cat welcome.txt)
   <span style="color: #00ff00;">cd &lt;dir&gt;</span>   - Change directory (e.g., cd projects, cd skills, cd resume)`;
-        } else if (lowerCommand === 'ls') { 
-            output = `index.html   script.js   style.css   images/   projects/   resume/   skills/   tree.txt`; // Updated home.html to index.html
-        } else if (lowerCommand === 'cd projects') { 
-            openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); // Corrected path
+        } else if (lowerCommand === 'ls') {
+            output = `index.html   script.js   style.css   images/   projects/   resume/   skills/   tree.txt`;
+        } else if (lowerCommand === 'cd projects') {
+            openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html');
             output = `Opened projects window.`;
-        } else if (lowerCommand === 'cd skills') { 
-            openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); // Corrected path
+        } else if (lowerCommand === 'cd skills') {
+            openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md');
             output = `Opened skills window.`;
-        } else if (lowerCommand === 'cd resume') { 
-            openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf'); // Corrected path
+        } else if (lowerCommand === 'cd resume') {
+            openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
             output = `Opened resume window.`;
-        } else if (lowerCommand.startsWith('cat ')) { 
+        } else if (lowerCommand.startsWith('cat ')) {
             const filePath = lowerCommand.substring(4).trim();
             if (filePath === 'skills/skill.md') {
-                fetch('skills/skill.md') // Corrected path
+                fetch('skills/skill.md')
                     .then(response => response.text())
                     .then(text => appendToTerminal(text))
                     .catch(error => appendToTerminal(`Error reading file: ${filePath}`));
@@ -307,43 +307,41 @@ Available commands:
                 fetch('tree.txt')
                     .then(response => response.text())
                     .then(text => {
-                        // Replace directory indicators for better terminal display
                         const formattedText = text.replace(/├──/g, '├─').replace(/└──/g, '└─');
                         appendToTerminal(formattedText);
                     })
                     .catch(error => appendToTerminal(`Error reading file: ${filePath}`));
                 return;
-            } else if (filePath === 'welcome.txt') { // Handle cat welcome.txt
-                appendToTerminal(welcomeMessage); // Directly output the welcome message
+            } else if (filePath === 'welcome.txt') {
+                appendToTerminal(welcomeMessage);
                 return;
-            } else if (filePath === 'resume/resume_dipen_thaker.pdf') { // Explicitly add resume for cat command feedback
+            } else if (filePath === 'resume/resume_dipen_thaker.pdf') {
                 output = "cat: Cannot display PDF content directly in terminal. Try opening the resume icon.";
-            }
-            else {
+            } else {
                 output = `cat: ${filePath}: No such file or directory or cannot read this file type.`;
             }
-        } else if (lowerCommand === 'pwd') { 
+        } else if (lowerCommand === 'pwd') {
             output = `/`;
-        } else if (lowerCommand === 'whoami') { 
-            output = `dipen`; // Changed to 'dipen'
+        } else if (lowerCommand === 'whoami') {
+            output = `dipen`;
         } else {
-            output = `Command not found: ${command}<br>Type 'help' to see available commands.`; // Enhanced unknown command message
+            output = `Command not found: ${command}<br>Type 'help' to see available commands.`;
         }
         appendToTerminal(output);
     }
 
     function initializeTerminal() {
-        terminalHistory.innerHTML = ''; 
-        appendToTerminal(welcomeMessage); // Display welcome message initially
-        terminalInput.value = ''; 
-        terminalInput.focus(); // Ensure input is focused on open
+        terminalHistory.innerHTML = '';
+        appendToTerminal(welcomeMessage);
+        terminalInput.value = '';
+        terminalInput.focus();
     }
 
     terminalInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); 
+            e.preventDefault();
             const command = terminalInput.value.trim();
-            terminalInput.value = ''; 
+            terminalInput.value = '';
 
             if (command) {
                 handleCommand(command);
@@ -357,19 +355,19 @@ Available commands:
         icon.addEventListener('click', () => {
             const action = icon.dataset.action;
             if (action === 'open-terminal') {
-                openSpecificWindow(terminalWindow, 'Terminal'); // Changed title here
+                openSpecificWindow(terminalWindow, 'Terminal');
             } else if (action === 'open-projects') {
-                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); // Corrected path
+                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html');
             } else if (action === 'open-skills') {
-                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); // Corrected path
+                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md');
             } else if (action === 'open-github') {
-                window.open('https://github.com/gitdipen', '_blank'); 
+                window.open('https://github.com/gitdipen', '_blank');
             } else if (action === 'open-linkedin') {
-                window.open('https://linkedin.com/in/yourprofile', '_blank'); // Remember to update this with your actual LinkedIn
+                window.open('https://linkedin.com/in/yourprofile', '_blank');
             } else if (action === 'open-resume') {
-                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf'); // Corrected path
+                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
             }
-            kaliMenu.classList.add('hidden'); 
+            kaliMenu.classList.add('hidden');
         });
     });
 
@@ -377,19 +375,19 @@ Available commands:
         item.addEventListener('click', () => {
             const action = item.dataset.action;
             if (action === 'open-terminal') {
-                openSpecificWindow(terminalWindow, 'Terminal'); // Changed title here
+                openSpecificWindow(terminalWindow, 'Terminal');
             } else if (action === 'open-projects') {
-                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); // Corrected path
+                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html');
             } else if (action === 'open-skills') {
-                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); // Corrected path
-            } else if (action === 'open-resume') { 
-                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf'); // Corrected path
-            } else if (action === 'open-github') { 
+                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md');
+            } else if (action === 'open-resume') {
+                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
+            } else if (action === 'open-github') {
                 window.open('https://github.com/gitdipen', '_blank');
-            } else if (action === 'open-linkedin') { 
-                window.open('https://linkedin.com/in/yourprofile', '_blank'); // Remember to update this with your actual LinkedIn
+            } else if (action === 'open-linkedin') {
+                window.open('https://linkedin.com/in/yourprofile', '_blank');
             }
-            kaliMenu.classList.add('hidden'); 
+            kaliMenu.classList.add('hidden');
         });
     });
 
