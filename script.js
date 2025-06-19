@@ -233,7 +233,7 @@ dipen
 
 ─────────────────────────────────────────────────
               Welcome to Dipen's Portfolio
-                Cybersecurity Specialist
+                Cybersecurity Professional
 ─────────────────────────────────────────────────
 
 <i class="fas fa-lock" style="color: #00ff00;"></i>  Current Focus: OSCP Certification Preparation
