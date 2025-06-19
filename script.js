@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initializeTerminal();
             terminalInput.focus();
         } else if (windowElement === projectsWindow) {
+            // Corrected path to project.html
             if (projectsHtmlContent.innerHTML === '' || contentPath !== projectsHtmlContent.dataset.loadedPath) {
                 fetch('projects/project.html') 
                     .then(response => response.text())
@@ -193,10 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             projectsHtmlContent.scrollTop = 0;
         } else if (windowElement === resumeWindow) {
-            if (resumeIframe.src !== window.location.origin + '/' + contentPath) {
+            // Ensure path to PDF is correct and case-sensitive
+            if (resumeIframe.src !== window.location.origin + '/dip3n/' + contentPath) { // Adjusted for repository path
                 resumeIframe.src = contentPath;
             }
         } else if (windowElement === skillsWindow) {
+            // Corrected path to skill.md
             if (skillsHtmlContent.innerHTML === '' || contentPath !== skillsHtmlContent.dataset.loadedPath) {
                 fetch('skills/skill.md') 
                     .then(response => {
@@ -231,7 +234,7 @@ dipen
 
   ┌───────────────────────────────────────────────┐
   │         Welcome to Dipen's Portfolio          │
-  │            Cybersecurity Specialist           │
+  │           Cybersecurity Specialist            │
   └───────────────────────────────────────────────┘
 
  <i class="fas fa-lock" style="color: #00ff00;"></i> Current Focus: OSCP Certification Preparation
@@ -239,13 +242,13 @@ dipen
  <i class="fas fa-heart" style="color: #00ff00;"></i> Passionate about: Red Team Operations | Blue Team Defense
 
  <i class="fas fa-folder-open" style="color: #00ff00;"></i> Available Files:
-  • resume.pdf        - Professional experience & education
-  • projects/         - Cybersecurity projects & writeups
-  • skills/skill.md   - Technical skills & tools
-  • target-oscp.txt   - Certification roadmap
+  • resume/Resume_Dipen_Thaker.pdf  - Professional experience & education
+  • projects/                   - Cybersecurity projects & writeups
+  • skills/skill.md           - Technical skills & tools
+  • tree.txt                  - Certification roadmap
 
  <i class="fas fa-lightbulb" style="color: #00ff00;"></i> Tip: Double-click any desktop icon to explore!
- Use the menubar at the top for quick access to applications
+  Use the menubar at the top for quick access to applications
 `;
 
     function appendToTerminal(text, isCommand = false) {
@@ -282,26 +285,26 @@ Available commands:
   <span style="color: #00ff00;">cat &lt;file&gt;</span> - Display file content (e.g., cat skills/skill.md, cat tree.txt, cat welcome.txt)
   <span style="color: #00ff00;">cd &lt;dir&gt;</span>   - Change directory (e.g., cd projects, cd skills, cd resume)`;
         } else if (lowerCommand === 'ls') { 
-             output = `home.html  script.js  style.css  Images/  projects/  resume/  skills/  tree.txt`;
+            output = `index.html   script.js   style.css   images/   projects/   resume/   skills/   tree.txt`; // Updated home.html to index.html
         } else if (lowerCommand === 'cd projects') { 
-            openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html');
+            openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); // Corrected path
             output = `Opened projects window.`;
         } else if (lowerCommand === 'cd skills') { 
-            openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md');
+            openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); // Corrected path
             output = `Opened skills window.`;
         } else if (lowerCommand === 'cd resume') { 
-            openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
+            openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf'); // Corrected path
             output = `Opened resume window.`;
         } else if (lowerCommand.startsWith('cat ')) { 
             const filePath = lowerCommand.substring(4).trim();
             if (filePath === 'skills/skill.md') {
-                fetch('skills/skill.md')
+                fetch('skills/skill.md') // Corrected path
                     .then(response => response.text())
                     .then(text => appendToTerminal(text))
                     .catch(error => appendToTerminal(`Error reading file: ${filePath}`));
                 return;
             } else if (filePath === 'tree.txt') {
-                 fetch('tree.txt')
+                fetch('tree.txt')
                     .then(response => response.text())
                     .then(text => {
                         // Replace directory indicators for better terminal display
@@ -313,11 +316,14 @@ Available commands:
             } else if (filePath === 'welcome.txt') { // Handle cat welcome.txt
                 appendToTerminal(welcomeMessage); // Directly output the welcome message
                 return;
-            } else {
+            } else if (filePath === 'resume/resume_dipen_thaker.pdf') { // Explicitly add resume for cat command feedback
+                output = "cat: Cannot display PDF content directly in terminal. Try opening the resume icon.";
+            }
+            else {
                 output = `cat: ${filePath}: No such file or directory or cannot read this file type.`;
             }
         } else if (lowerCommand === 'pwd') { 
-             output = `/`;
+            output = `/`;
         } else if (lowerCommand === 'whoami') { 
             output = `dipen`; // Changed to 'dipen'
         } else {
@@ -353,15 +359,15 @@ Available commands:
             if (action === 'open-terminal') {
                 openSpecificWindow(terminalWindow, 'Terminal'); // Changed title here
             } else if (action === 'open-projects') {
-                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); 
+                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); // Corrected path
             } else if (action === 'open-skills') {
-                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); 
+                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); // Corrected path
             } else if (action === 'open-github') {
                 window.open('https://github.com/gitdipen', '_blank'); 
             } else if (action === 'open-linkedin') {
-                window.open('https://linkedin.com/in/yourprofile', '_blank'); 
+                window.open('https://linkedin.com/in/yourprofile', '_blank'); // Remember to update this with your actual LinkedIn
             } else if (action === 'open-resume') {
-                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
+                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf'); // Corrected path
             }
             kaliMenu.classList.add('hidden'); 
         });
@@ -373,15 +379,15 @@ Available commands:
             if (action === 'open-terminal') {
                 openSpecificWindow(terminalWindow, 'Terminal'); // Changed title here
             } else if (action === 'open-projects') {
-                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); 
+                openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html'); // Corrected path
             } else if (action === 'open-skills') {
-                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); 
+                openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md'); // Corrected path
             } else if (action === 'open-resume') { 
-                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
+                openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf'); // Corrected path
             } else if (action === 'open-github') { 
                 window.open('https://github.com/gitdipen', '_blank');
             } else if (action === 'open-linkedin') { 
-                window.open('https://linkedin.com/in/yourprofile', '_blank');
+                window.open('https://linkedin.com/in/yourprofile', '_blank'); // Remember to update this with your actual LinkedIn
             }
             kaliMenu.classList.add('hidden'); 
         });
