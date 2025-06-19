@@ -230,13 +230,13 @@ document.addEventListener('DOMContentLoaded', () => {
 dipen
 ┌─(dipen@kali)-[~]
 └─$ cat welcome.txt
-
 ───────────────────────────────────────────────────────────
               Welcome to Dipen's Portfolio
                Cybersecurity Professional
 ───────────────────────────────────────────────────────────
 <i class="fas fa-person" style="color: #00ff00;"></i>  Masters of Cybersecurity (Professional) Student at Deakin University
-<i class="fas fa-user-secret" style="color: #00ff00;"></i>  Specializations: Penetration Testing | Ethical Hacking
+<i class="fas fa-user-secret" style="color: #00ff00;"></i>  Experience: Cybersecurity Analyst(3 Years+)
+<i class="fas fa-project-diagram" style="color: #00ff00;"></i>  Specializations: Penetration Testing | Ethical Hacking
 <i class="fas fa-heart" style="color: #00ff00;"></i>  Passionate about: Red Team Operations | Blue Team Defense
 <i class="fas fa-lock" style="color: #00ff00;"></i>  Current Focus: Certification Preparation
 
