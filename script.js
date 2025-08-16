@@ -362,7 +362,7 @@ Available commands:
             } else if (action === 'open-github') {
                 window.open('https://github.com/gitdipen', '_blank');
             } else if (action === 'open-linkedin') {
-                window.open('https://linkedin.com/in/yourprofile', '_blank');
+                window.open('https://linkedin.com/in/dipenthaker, '_blank');
             } else if (action === 'open-resume') {
                 openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
             }
