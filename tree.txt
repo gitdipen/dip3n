@@ -11,5 +11,5 @@ DIP3N
 ├── script.js
 ├── style.css
 ├── tree.txt
-├── welcome.txt     <-- Conceptual file referenced by terminal
-└── target-oscp.txt <-- Conceptual file referenced by terminal
+├── welcome.txt     
+└── target.txt 

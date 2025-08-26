@@ -21,7 +21,7 @@ body {
 #desktop {
     width: 100vw; /* Viewport width */
     height: 100vh; /* Viewport height */
-    background-image: url('https://raw.githubusercontent.com/gitdipen/kali/main/images/kali_wallpaper.jpg'); /* Placeholder, you'll need to add this image later */
+    background-image: url('Images/kali_wallpaper.jpg'); /* Updated: Changed to a relative path */
     background-size: cover;
     background-position: center;
     position: relative;

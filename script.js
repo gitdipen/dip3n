@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (windowElement === resumeWindow) {
             const fullPdfPath = window.location.origin + window.location.pathname.replace(/\/$/, '') + '/' + contentPath;
             if (resumeIframe.src !== fullPdfPath) {
-                 resumeIframe.src = contentPath;
+                resumeIframe.src = contentPath;
             }
         } else if (windowElement === skillsWindow) {
             if (skillsHtmlContent.innerHTML === '' || contentPath !== skillsHtmlContent.dataset.loadedPath) {
@@ -232,20 +232,20 @@ dipen
 └─$ cat welcome.txt
 ───────────────────────────────────────────────────────────
               Welcome to Dipen's Portfolio
-               Cybersecurity Professional
+                Cybersecurity Professional
 ───────────────────────────────────────────────────────────
-<i class="fas fa-person" style="color: #00ff00;"></i>  Masters of Cybersecurity (Professional) Student at Deakin University
-<i class="fas fa-user-secret" style="color: #00ff00;"></i>  Experience: Cybersecurity Analyst(3 Years+)
-<i class="fas fa-project-diagram" style="color: #00ff00;"></i>  Specializations: Penetration Testing | Ethical Hacking
-<i class="fas fa-heart" style="color: #00ff00;"></i>  Passionate about: Red Team Operations | Blue Team Defense
-<i class="fas fa-lock" style="color: #00ff00;"></i>  Current Focus: Certification Preparation
+<i class="fas fa-person" style="color: #00ff00;"></i>   Masters of Cybersecurity (Professional) Student at Deakin University
+<i class="fas fa-user-secret" style="color: #00ff00;"></i>   Experience: Cybersecurity Analyst(3 Years+)
+<i class="fas fa-project-diagram" style="color: #00ff00;"></i>   Specializations: Penetration Testing | Ethical Hacking
+<i class="fas fa-heart" style="color: #00ff00;"></i>   Passionate about: Red Team Operations | Blue Team Defense
+<i class="fas fa-lock" style="color: #00ff00;"></i>   Current Focus: Certification Preparation
 
-<i class="fas fa-folder-open" style="color: #00ff00;"></i>  Available Files:
-    • resume/Resume_Dipen_Thaker.pdf    - Professional experience & education
-    • projects/                         - Cybersecurity projects & writeups - In Progress...
-    • skills/skill.md                   - Technical skills & tools
+<i class="fas fa-folder-open" style="color: #00ff00;"></i>   Available Files:
+    • resume/Resume_Dipen_Thaker.pdf      - Professional experience & education
+    • projects/                        - Cybersecurity projects & writeups - In Progress...
+    • skills/skill.md                 - Technical skills & tools
 
-<i class="fas fa-lightbulb" style="color: #00ff00;"></i>  Tip: Double-click any desktop icon to explore!
+<i class="fas fa-lightbulb" style="color: #00ff00;"></i>   Tip: Double-click any desktop icon to explore!
     Use the menubar at the top for quick access to applications
 ─────────────────────────────────────────────────
 `;
@@ -277,10 +277,10 @@ dipen
 Available commands:
   <span style="color: #00ff00;">ifconfig</span>   - Show network interface details
   <span style="color: #00ff00;">clear</span>      - Clear the terminal screen
-  <span style="color: #00ff00;">help</span>       - Display this help message
+  <span style="color: #00ff00;">help</span>      - Display this help message
   <span style="color: #00ff00;">ls</span>         - List directory contents
-  <span style="color: #00ff00;">pwd</span>        - Print working directory
-  <span style="color: #00ff00;">whoami</span>     - Display current username
+  <span style="color: #00ff00;">pwd</span>         - Print working directory
+  <span style="color: #00ff00;">whoami</span>      - Display current username
   <span style="color: #00ff00;">cat &lt;file&gt;</span> - Display file content (e.g., cat skills/skill.md, cat tree.txt, cat welcome.txt)
   <span style="color: #00ff00;">cd &lt;dir&gt;</span>   - Change directory (e.g., cd projects, cd skills, cd resume)`;
         } else if (lowerCommand === 'ls') {
@@ -362,7 +362,7 @@ Available commands:
             } else if (action === 'open-github') {
                 window.open('https://github.com/gitdipen', '_blank');
             } else if (action === 'open-linkedin') {
-                window.open('https://linkedin.com/in/dipenthaker, '_blank');
+                window.open('https://linkedin.com/in/dipenthaker', '_blank');
             } else if (action === 'open-resume') {
                 openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
             }
@@ -384,7 +384,7 @@ Available commands:
             } else if (action === 'open-github') {
                 window.open('https://github.com/gitdipen', '_blank');
             } else if (action === 'open-linkedin') {
-                window.open('https://linkedin.com/in/yourprofile', '_blank');
+                window.open('https://linkedin.com/in/dipenthaker', '_blank');
             }
             kaliMenu.classList.add('hidden');
         });
@@ -392,4 +392,3 @@ Available commands:
 
     initializeTerminal();
 });
-//done
