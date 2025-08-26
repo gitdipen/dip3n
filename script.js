@@ -7,75 +7,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const kaliMenu = document.getElementById('kali-menu');
     const desktopIcons = document.getElementById('desktop-icons');
     const loadingScreen = document.getElementById('loading-screen');
+    const bootStartTime = new Date();
 
-    // --- References to the specific window elements ---
     const terminalWindow = document.getElementById('terminal-window');
     const projectsWindow = document.getElementById('projects-window');
     const resumeWindow = document.getElementById('resume-window');
     const skillsWindow = document.getElementById('skills-window');
 
-    // --- References to terminal specific elements ---
     const terminalHistory = terminalWindow.querySelector('#terminal-history');
-    const terminalInput = terminalWindow.querySelector('.terminal-input');
+    let terminalInput;
 
-    // --- References to content divs within their respective windows ---
     const projectsHtmlContent = document.getElementById('projects-html-content');
     const resumeIframe = document.getElementById('resume-iframe');
     const skillsHtmlContent = document.getElementById('skills-html-content');
 
-    // Array to keep track of active windows for z-index management
     let activeWindows = [];
-
-    // --- Terminal Command History ---
     let commandHistory = [];
     let historyIndex = -1;
 
-    // --- Loading Screen Logic ---
+    // --- Loading Screen Logic (Updated) ---
     function startLoadingScreen() {
-        loadingScreen.style.display = 'flex';
-        desktop.style.display = 'none';
-
+        // Initially, the desktop is hidden in CSS, but the loading screen is visible
         const bootLog = document.getElementById('boot-log');
         const bootLines = [
-            `Starting Kali GNU/Linux...`,
-            `[ OK ] Checking hardware compatibility...`,
-            `[ OK ] Initializing network interfaces...`,
-            `[ OK ] Authenticating user 'dipen'...`,
-            `[ OK ] Loading desktop environment...`,
-            `Welcome to the Dipen Thaker Portfolio!`,
-            `_` // Blinking cursor
+            `[ ok ] Setting up network interfaces...`,
+            `[ ok ] Starting service Tor...`,
+            `[ ok ] Loading kernel modules...`,
+            `[ ok ] Mounting filesystems...`, 
+            `[ ok ] Boot complete.`,
+            `<span class="blinking-cursor">_</span>`
         ];
 
-        bootLines.forEach((line, index) => {
-            const lineElement = document.createElement('div');
-            lineElement.textContent = line;
-            if (line === '_') {
-                lineElement.classList.add('blinking-cursor');
-            }
-            bootLog.appendChild(lineElement);
-        });
+        let lineIndex = 0;
 
-        const lineElements = bootLog.querySelectorAll('div');
-
-        function showLine(index) {
-            if (index < lineElements.length - 1) {
-                lineElements[index].style.display = 'block';
-                setTimeout(() => showLine(index + 1), 700);
+        function showLine() {
+            if (lineIndex < bootLines.length) {
+                const lineElement = document.createElement('div');
+                lineElement.innerHTML = bootLines[lineIndex];
+                bootLog.appendChild(lineElement);
+                bootLog.scrollTop = bootLog.scrollHeight;
+                lineIndex++;
+                setTimeout(showLine, 500);
             } else {
-                lineElements[index].style.display = 'block';
                 setTimeout(() => {
                     loadingScreen.classList.add('hidden');
-                    desktop.style.display = 'block';
+                    // The desktop is now revealed by hiding the loading screen
                     initializeDesktop();
                 }, 1000);
             }
         }
-        showLine(0);
+        showLine();
     }
 
     // --- Main Desktop Initialization ---
     function initializeDesktop() {
-        // --- Taskbar Time ---
         function updateTime() {
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
@@ -89,20 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateTime, 1000);
         updateTime();
 
-        // --- Kali Menu Toggle ---
         kaliMenuButton.addEventListener('click', (event) => {
             kaliMenu.classList.toggle('hidden');
             event.stopPropagation();
         });
 
-        // Close Kali Menu if clicked outside
         document.addEventListener('click', (event) => {
             if (!kaliMenu.contains(event.target) && !kaliMenuButton.contains(event.target)) {
                 kaliMenu.classList.add('hidden');
             }
         });
 
-        // --- Window Management (Generalized Setup) ---
         function setupWindow(windowElement) {
             let isDragging = false;
             let offsetX, offsetY;
@@ -223,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (windowElement === terminalWindow) {
                 initializeTerminal();
-                terminalInput.focus();
             } else if (windowElement === projectsWindow) {
                 if (projectsHtmlContent.innerHTML === '' || contentPath !== projectsHtmlContent.dataset.loadedPath) {
                     fetch('projects/project.html')
@@ -265,39 +246,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // --- Terminal Specific Logic ---
-        const customPrompt = '(dipen@kali)~[]$'; // New custom prompt
-
+        const customPrompt = '-(dipen㉿kali)-[~]';
         const welcomeMessage = `
-┌─(dipen@kali)-[~]
-└─$ whoami
+-(dipen㉿kali)-[~] whoami
 dipen
-┌─(dipen@kali)-[~]
-└─$ cat welcome.txt
+-(dipen㉿kali)-[~] cat welcome.txt
 ───────────────────────────────────────────────────────────
               Welcome to Dipen's Portfolio
                 Cybersecurity Professional
 ───────────────────────────────────────────────────────────
-<i class="fas fa-person" style="color: #00ff00;"></i>   Masters of Cybersecurity (Professional) Student at Deakin University
-<i class="fas fa-user-secret" style="color: #00ff00;"></i>   Experience: Cybersecurity Analyst(3 Years+)
-<i class="fas fa-project-diagram" style="color: #00ff00;"></i>   Specializations: Penetration Testing | Ethical Hacking
-<i class="fas fa-heart" style="color: #00ff00;"></i>   Passionate about: Red Team Operations | Blue Team Defense
-<i class="fas fa-lock" style="color: #00ff00;"></i>   Current Focus: Certification Preparation
+<i class="fas fa-person" style="color: #00a2ff;"></i>   Masters of Cybersecurity (Professional) Student at Deakin University
+<i class="fas fa-user-secret" style="color: #00a2ff;"></i>   Experience: Cybersecurity Analyst (3+ years)
+<i class="fas fa-project-diagram" style="color: #00a2ff;"></i>   Specializations: Penetration Testing | Ethical Hacking
+<i class="fas fa-heart" style="color: #00a2ff;"></i>   Passionate about: Red Team Operations | Blue Team Defense
+<i class="fas fa-lock" style="color: #00a2ff;"></i>   Current Focus: Certification Preparation
 
-<i class="fas fa-folder-open" style="color: #00ff00;"></i>   Available Files:
-    • resume/Resume_Dipen_Thaker.pdf      - Professional experience & education
-    • projects/                        - Cybersecurity projects & writeups - In Progress...
-    • skills/skill.md                 - Technical skills & tools
-
-<i class="fas fa-lightbulb" style="color: #00ff00;"></i>   Tip: Double-click any desktop icon to explore!
-    Use the menubar at the top for quick access to applications
+<i class="fas fa-folder-open" style="color: #00a2ff;"></i>   Available Commands:
+    • help         - See a list of all commands
+    • whois        - Get my contact information
+    • projects     - Open the projects window
+    • skills       - Open the skills window
+    • resume       - Open my resume
+    • ls           - List files/directories
+    • uptime       - Check system uptime
 ─────────────────────────────────────────────────
 `;
 
         function appendToTerminal(text, isCommand = false) {
             const line = document.createElement('div');
             if (isCommand) {
-                line.innerHTML = `<span class="prompt">${customPrompt}</span> ${text}`;
+                line.innerHTML = `${customPrompt} ${text}`;
             } else {
                 line.innerHTML = text;
             }
@@ -306,8 +284,6 @@ dipen
         }
 
         function handleCommand(command) {
-            appendToTerminal(command, true);
-
             commandHistory.push(command);
             historyIndex = commandHistory.length;
 
@@ -322,32 +298,34 @@ dipen
             } else if (lowerCommand === 'help') {
                 output = `
 Available commands:
-  <span style="color: #00ff00;">ifconfig</span>   - Show network interface details
-  <span style="color: #00ff00;">clear</span>      - Clear the terminal screen
-  <span style="color: #00ff00;">help</span>      - Display this help message
-  <span style="color: #00ff00;">ls</span>         - List directory contents
-  <span style="color: #00ff00;">pwd</span>         - Print working directory
-  <span style="color: #00ff00;">whoami</span>      - Display current username
-  <span style="color: #00ff00;">whois</span>      - Find my contact information
-  <span style="color: #00ff00;">ping</span>       - Test network connectivity
-  <span style="color: #00ff00;">find</span>       - Search for a file
-  <span style="color: #00ff00;">cat &lt;file&gt;</span> - Display file content (e.g., cat skills/skill.md, cat tree.txt, cat welcome.txt)
-  <span style="color: #00ff00;">cd &lt;dir&gt;</span>   - Change directory (e.g., cd projects, cd skills, cd resume)`;
+  <span style="color: #00a2ff;">ifconfig</span>   - Show network interface details
+  <span style="color: #00a2ff;">clear</span>      - Clear the terminal screen
+  <span style="color: #00a2ff;">help</span>      - Display this help message
+  <span style="color: #00a2ff;">ls</span>         - List directory contents
+  <span style="color: #00a2ff;">ls -l</span>      - List directory contents with long format
+  <span style="color: #00a2ff;">pwd</span>         - Print working directory
+  <span style="color: #00a2ff;">whoami</span>      - Display current username
+  <span style="color: #00a2ff;">whois</span>      - Find my contact information
+  <span style="color: #00a2ff;">ping</span>       - Test network connectivity
+  <span style="color: #00a2ff;">find</span>       - Search for a file
+  <span style="color: #00a2ff;">cat &lt;file&gt;</span> - Display file content (e.g., cat skills/skill.md, cat tree.txt, cat welcome.txt)
+  <span style="color: #00a2ff;">cd &lt;dir&gt;</span>   - Change directory (e.g., cd projects, cd skills, cd resume)
+  <span style="color: #00a2ff;">uptime</span>     - Check how long the system has been running`;
             } else if (lowerCommand === 'ls') {
                 output = `index.html   script.js   style.css   images/   projects/   resume/   skills/   tree.txt`;
             } else if (lowerCommand === 'ls -l') {
                  output = `
 total 64K
-drwxr-xr-x 2 dipen dipen 4.0K May 25 21:03 Images
--rw-r--r-- 1 dipen dipen  12K May 25 21:03 index.html
-drwxr-xr-x 2 dipen dipen 4.0K May 25 21:03 projects
-drwxr-xr-x 2 dipen dipen 4.0K May 25 21:03 resume
--rw-r--r-- 1 dipen dipen 6.8K May 25 21:03 script.js
-drwxr-xr-x 2 dipen dipen 4.0K May 25 21:03 skills
--rw-r--r-- 1 dipen dipen 3.2K May 25 21:03 style.css
--rw-r--r-- 1 dipen dipen 0.5K May 25 21:03 tree.txt
--rw-r--r-- 1 dipen dipen 1.5K May 25 21:03 welcome.txt
--rw-r--r-- 1 dipen dipen 0.7K May 25 21:03 target.txt
+drwxr-xr-x 2 kali kali 4.0K May 25 21:03 Images
+-rw-r--r-- 1 kali kali  12K May 25 21:03 index.html
+drwxr-xr-x 2 kali kali 4.0K May 25 21:03 projects
+drwxr-xr-x 2 kali kali 4.0K May 25 21:03 resume
+-rw-r--r-- 1 kali kali 6.8K May 25 21:03 script.js
+drwxr-xr-x 2 kali kali 4.0K May 25 21:03 skills
+-rw-r--r-- 1 kali kali 3.2K May 25 21:03 style.css
+-rw-r--r-- 1 kali kali 0.5K May 25 21:03 tree.txt
+-rw-r--r-- 1 kali kali 1.5K May 25 21:03 welcome.txt
+-rw-r--r-- 1 kali kali 0.7K May 25 21:03 target.txt
 `
             } else if (lowerCommand === 'whois') {
                  output = `
@@ -368,7 +346,7 @@ rtt min/avg/max/mdev = 10.2/10.5/10.9/0.3 ms
 `;
             } else if (lowerCommand.startsWith('find ')) {
                 const fileName = lowerCommand.substring(5).trim();
-                const files = ['project.html', 'skill.md', 'Resume_Dipen_Thaker.pdf', 'kali_wallpaper.jpg', 'tree.txt', 'welcome.txt', 'target.txt'];
+                const files = ['project.html', 'skill.md', 'Resume_Dipen_Thaker.pdf', 'kali_linux_wallpaper.jpg', 'tree.txt', 'welcome.txt', 'target.txt'];
                 if (files.includes(fileName)) {
                     output = `${fileName} found. Path: /${fileName}`;
                 } else if (fileName.includes('/')) {
@@ -385,13 +363,20 @@ rtt min/avg/max/mdev = 10.2/10.5/10.9/0.3 ms
                 }
             } else if (lowerCommand.startsWith('sudo')) {
                  output = "sudo: command not found (You don't have enough privileges... yet!)";
-            } else if (lowerCommand === 'cd projects') {
+            } else if (lowerCommand === 'uptime') {
+                const uptimeMs = new Date() - bootStartTime;
+                const hours = Math.floor(uptimeMs / 3600000);
+                const minutes = Math.floor((uptimeMs % 3600000) / 60000);
+                const seconds = Math.floor((uptimeMs % 60000) / 1000);
+                output = `Uptime: ${hours} hours, ${minutes} minutes, ${seconds} seconds.`;
+            }
+            else if (lowerCommand === 'cd projects' || lowerCommand === 'projects') {
                 openSpecificWindow(projectsWindow, 'My Cybersecurity Projects', 'projects/project.html');
                 output = `Opened projects window.`;
-            } else if (lowerCommand === 'cd skills') {
+            } else if (lowerCommand === 'cd skills' || lowerCommand === 'skills') {
                 openSpecificWindow(skillsWindow, 'Skills - Terminal View', 'skills/skill.md');
                 output = `Opened skills window.`;
-            } else if (lowerCommand === 'cd resume') {
+            } else if (lowerCommand === 'cd resume' || lowerCommand === 'resume') {
                 openSpecificWindow(resumeWindow, 'Resume - Dipen Thaker', 'resume/Resume_Dipen_Thaker.pdf');
                 output = `Opened resume window.`;
             } else if (lowerCommand.startsWith('cat ')) {
@@ -432,35 +417,58 @@ rtt min/avg/max/mdev = 10.2/10.5/10.9/0.3 ms
         function initializeTerminal() {
             terminalHistory.innerHTML = '';
             appendToTerminal(welcomeMessage);
-            terminalInput.value = '';
+            const inputLine = document.createElement('div');
+            inputLine.className = 'terminal-input-line';
+            inputLine.innerHTML = `<span class="prompt">${customPrompt}</span> <input class="terminal-input" type="text" autofocus>`;
+            terminalHistory.appendChild(inputLine);
+            terminalInput = inputLine.querySelector('.terminal-input');
             terminalInput.focus();
         }
 
-        terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const command = terminalInput.value.trim();
-                terminalInput.value = '';
+        terminalWindow.addEventListener('click', () => {
+            if (terminalInput) {
+                terminalInput.focus();
+            }
+        });
 
-                if (command) {
-                    handleCommand(command);
-                } else {
-                    appendToTerminal("", true);
-                }
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    terminalInput.value = commandHistory[historyIndex];
-                }
-            } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                    terminalInput.value = commandHistory[historyIndex];
-                } else if (historyIndex === commandHistory.length - 1) {
-                    historyIndex++;
-                    terminalInput.value = '';
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement === terminalInput) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const command = terminalInput.value.trim();
+                    
+                    const oldInputLine = terminalInput.parentNode;
+                    oldInputLine.innerHTML = `<span class="prompt">${customPrompt}</span> ${command}`;
+
+                    if (command) {
+                        handleCommand(command);
+                    } else {
+                        appendToTerminal("");
+                    }
+                    
+                    const newPromptLine = document.createElement('div');
+                    newPromptLine.className = 'terminal-input-line';
+                    newPromptLine.innerHTML = `<span class="prompt">${customPrompt}</span> <input class="terminal-input" type="text" autofocus>`;
+                    terminalHistory.appendChild(newPromptLine);
+                    terminalInput = newPromptLine.querySelector('.terminal-input');
+                    terminalInput.focus();
+                    terminalHistory.scrollTop = terminalHistory.scrollHeight;
+
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        terminalInput.value = commandHistory[historyIndex];
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        terminalInput.value = commandHistory[historyIndex];
+                    } else if (historyIndex === commandHistory.length - 1) {
+                        historyIndex++;
+                        terminalInput.value = '';
+                    }
                 }
             }
         });
