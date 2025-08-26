@@ -17,6 +17,66 @@ body {
     --kali-red: #ff0000; /* For close buttons */
 }
 
+/* --- Loading Screen Styles --- */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    color: var(--kali-green);
+    font-family: 'Fira Code', 'Hack', 'Roboto Mono', monospace;
+    font-size: 0.9em;
+    padding: 20px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    z-index: 2000;
+    transition: opacity 0.5s ease-in-out;
+    overflow-y: auto;
+}
+
+#loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#boot-log {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: boot-fade-in 1s ease-in-out;
+}
+
+@keyframes boot-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#boot-log > span {
+    display: block;
+    margin: 5px 0;
+    color: #00ff00;
+}
+#boot-log .blinking-cursor {
+    animation: blink-cursor 1s step-end infinite;
+}
+@keyframes blink-cursor {
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
+}
+/* This class hides the lines initially */
+.hidden {
+    display: none !important;
+}
+
 /* Desktop Styles */
 #desktop {
     width: 100vw; /* Viewport width */
@@ -82,7 +142,7 @@ body {
     cursor: pointer;
     width: 80px; /* Fixed width for icon block */
     text-align: center;
-    transition: background-color 0.2s; /* Smooth hover effect */
+    transition: background-color 0.2s, transform 0.2s; /* Added transform */
     padding: 5px;
     border-radius: 5px;
 }
@@ -101,6 +161,7 @@ body {
 .icon:hover {
     background-color: rgba(0, 0, 0, 0.3); /* Slight hover background */
     border: 1px solid rgba(0, 0, 0, 0.5); /* Subtle border on hover */
+    transform: scale(1.05); /* Added icon hover effect */
 }
 
 /* Window Styles (generic for all windows) */
@@ -124,7 +185,21 @@ body {
     max-height: calc(100vh - 80px);
     min-width: 400px;
     min-height: 300px; 
+
+    /* Added window animations */
+    animation: fadeIn 0.3s ease-out;
 }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 
 .window-header {
     background-color: var(--kali-light-grey);
@@ -227,7 +302,14 @@ body {
     font-size: 0.9em;
     outline: none; 
     flex-grow: 1; 
-    caret-color: var(--kali-green); 
+    caret-color: var(--kali-green);
+    /* Added blinking cursor animation */
+    animation: blink-caret 1s step-end infinite;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--kali-green); }
 }
 
 /* Styles for HTML content loaded inside a window (e.g., projects, skills) */

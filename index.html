@@ -3,29 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dipen Thaker - Cybersecurity Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Dipen Thaker | Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+
+    <div id="loading-screen">
+        <div id="boot-log">
+            <span id="line1" class="hidden"></span>
+            <span id="line2" class="hidden"></span>
+            <span id="line3" class="hidden"></span>
+            <span id="line4" class="hidden"></span>
+            <span id="line5" class="hidden"></span>
+            <span id="line6" class="hidden"></span>
+        </div>
+    </div>
+
     <div id="desktop">
         <div id="taskbar">
             <div class="taskbar-item" id="kali-menu-button">
-                <i class="fas fa-bars"></i> Kali
+                <i class="fas fa-bars"></i>
             </div>
-            <div class="right-items">
-                <span id="current-time"></span>
+            <div class="taskbar-center">
+            </div>
+            <div class="taskbar-item right-items">
                 <i class="fas fa-wifi"></i>
+                <i class="fas fa-volume-up"></i>
                 <i class="fas fa-battery-full"></i>
+                <span id="current-time"></span>
             </div>
         </div>
 
         <div id="kali-menu" class="hidden">
             <ul>
                 <li data-action="open-terminal"><i class="fas fa-terminal"></i> Terminal</li>
-                <li data-action="open-projects"><i class="fas fa-folder"></i> Projects</li>
-                <li data-action="open-resume"><i class="fas fa-file-alt"></i> Resume</li>
-                <li data-action="open-skills"><i class="fas fa-cogs"></i> Skills</li>
+                <li data-action="open-projects"><i class="fas fa-project-diagram"></i> Projects</li>
+                <li data-action="open-skills"><i class="fas fa-tools"></i> Skills</li>
+                <li data-action="open-resume"><i class="fas fa-file-pdf"></i> Resume</li>
                 <li data-action="open-github"><i class="fab fa-github"></i> GitHub</li>
                 <li data-action="open-linkedin"><i class="fab fa-linkedin"></i> LinkedIn</li>
             </ul>
@@ -37,12 +54,16 @@
                 <span>Terminal</span>
             </div>
             <div class="icon" data-action="open-projects">
-                <i class="fas fa-folder"></i>
+                <i class="fas fa-project-diagram"></i>
                 <span>Projects</span>
             </div>
             <div class="icon" data-action="open-skills">
-                <i class="fas fa-cogs"></i>
+                <i class="fas fa-tools"></i>
                 <span>Skills</span>
+            </div>
+            <div class="icon" data-action="open-resume">
+                <i class="fas fa-file-pdf"></i>
+                <span>Resume</span>
             </div>
             <div class="icon" data-action="open-github">
                 <i class="fab fa-github"></i>
@@ -52,17 +73,13 @@
                 <i class="fab fa-linkedin"></i>
                 <span>LinkedIn</span>
             </div>
-            <div class="icon" data-action="open-resume">
-                <i class="fas fa-file-alt"></i>
-                <span>Resume</span>
-            </div>
         </div>
 
-        <div id="terminal-window" class="window hidden">
+        <div class="window hidden" id="terminal-window">
             <div class="window-header">
-                <span class="window-title">Terminal - Home</span> 
+                <span class="window-title">Terminal</span>
                 <div class="window-controls">
-                    <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                    <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
                     <button class="maximize-btn"><i class="fas fa-square"></i></button>
                     <button class="close-btn"><i class="fas fa-times"></i></button>
                 </div>
@@ -71,17 +88,18 @@
                 <div id="terminal-content">
                     <div id="terminal-history"></div>
                     <div class="terminal-input-line">
-                        <span class="prompt">kali@kali:~$</span><input type="text" class="terminal-input" autofocus>
+                        <span class="prompt">(dipen@kali)~[]$</span>
+                        <input type="text" class="terminal-input" autofocus>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="projects-window" class="window hidden">
+        <div class="window hidden" id="projects-window">
             <div class="window-header">
-                <span class="window-title">My Cybersecurity Projects</span>
+                <span class="window-title">Projects</span>
                 <div class="window-controls">
-                    <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                    <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
                     <button class="maximize-btn"><i class="fas fa-square"></i></button>
                     <button class="close-btn"><i class="fas fa-times"></i></button>
                 </div>
@@ -90,26 +108,12 @@
                 <div id="projects-html-content"></div>
             </div>
         </div>
-
-        <div id="resume-window" class="window hidden">
+        
+        <div class="window hidden" id="skills-window">
             <div class="window-header">
-                <span class="window-title">Resume - Dipen Thaker</span>
+                <span class="window-title">Skills</span>
                 <div class="window-controls">
-                    <button class="minimize-btn"><i class="fas fa-minus"></i></button>
-                    <button class="maximize-btn"><i class="fas fa-square"></i></button>
-                    <button class="close-btn"><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-            <div class="window-body">
-                <iframe id="resume-iframe" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div id="skills-window" class="window hidden">
-            <div class="window-header">
-                <span class="window-title">Skills - Terminal View</span>
-                <div class="window-controls">
-                    <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                    <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
                     <button class="maximize-btn"><i class="fas fa-square"></i></button>
                     <button class="close-btn"><i class="fas fa-times"></i></button>
                 </div>
@@ -119,9 +123,22 @@
             </div>
         </div>
 
+        <div class="window hidden" id="resume-window">
+            <div class="window-header">
+                <span class="window-title">Resume</span>
+                <div class="window-controls">
+                    <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                    <button class="maximize-btn"><i class="fas fa-square"></i></button>
+                    <button class="close-btn"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <iframe id="resume-iframe"></iframe>
+            </div>
+        </div>
+
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
