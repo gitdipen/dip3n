@@ -4,15 +4,12 @@ This page outlines my technical and soft skills, reflecting my expertise in cybe
 
 ## Core Competencies
 
-* Vulnerability Assessment
-* Penetration Testing (Web, API, Network, Infrastructure)
-* Manual and Automated Testing
-* Configuration Review (Cloud, Databases)
-* Security Tools  (Nessus, Burp Suite, Nmap, Metasploit, SentinelOne, Harmony Point)
-* Security Risk Management
-* Security Frameworks (OWASP, CIS Benchmarks)
-* Team Leadership & Cross-functional Collaboration
-* Project Management
+* Vulnerability Assessment & Penetration Testing (Web, API, Network, Infrastructure, Mobile)
+* Security Audits: Configuration Review (Cloud, Databases)
+* Security Risk Management: Identify, assessing and risk mitigation.
+* Frameworks & Standards: OWASP Top 10, CIS Benchmarks.
+* Methodologies: Manual and Automated Testing.
+* Team Leadership & Cross-functional Collaboration, Project Management.
 
 ## Technical Skills
 
