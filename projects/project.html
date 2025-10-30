@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Scanner Project</title>
+    <title>My Cybersecurity Projects</title>
     <style>
         body {
+            /* Inherit font and background from the main window's CSS */
             font-family: 'Roboto Mono', monospace;
             background-color: #1a1a1a;
             color: #e0e0e0;
@@ -17,6 +18,8 @@
             color: #00ff00; /* Kali green */
             font-size: 1.8em;
             margin-bottom: 20px;
+            border-bottom: 2px solid #00ff00; /* Highlighted separator */
+            padding-bottom: 5px;
         }
         h2 {
             color: #00bfff; /* Light blue */
@@ -24,39 +27,58 @@
             margin-top: 25px;
             margin-bottom: 10px;
         }
+        .project-meta {
+            color: #ccc;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #007bff;
+        }
         p {
             margin-bottom: 10px;
         }
-        pre {
-            background-color: #000;
-            color: #00ff00;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            word-break: break-all;
-            width: 100%;
-            box-sizing: border-box;
+        .project-list {
+            list-style-type: '>'; /* Use a terminal-like indicator */
+            padding-left: 20px;
         }
-        a {
-            color: #9370db; /* Medium purple */
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
+        .project-list li {
             margin-bottom: 15px;
+            line-height: 1.4;
         }
-        li {
+        .project-title {
+            color: #00bfff; /* Blue for titles */
+            font-weight: bold;
+            font-size: 1.1em;
+            display: block;
             margin-bottom: 5px;
+        }
+        .project-description {
+            color: #00ff00; /* Green for key details */
         }
     </style>
 </head>
 <body>
-    <h1>In Progress.......</h1>
+    <h1><i class="fas fa-terminal"></i> Project Portfolio Summary</h1>
+
+    <ul class="project-list">
+        <li>
+            <span class="project-title">SecuLearn</span>
+            <span class="project-description">Developed a web security learning portal using Docker and Agile practices.</span>
+        </li>
+        <li>
+            <span class="project-title">We Share</span>
+            <span class="project-description">Developed social networking web app for data sharing using WordPress.</span>
+        </li>
+        <li>
+            <span class="project-title">Firewall using Deep Learning</span>
+            <span class="project-description">Developed a deep learning-based web application for a network firewall.</span>
+        </li>
+    </ul>
+
+    <h2><i class="fas fa-info-circle"></i> Note on Education Context</h2>
+    <p>
+        These projects were undertaken during my academic journey, focusing on core areas of cybersecurity, web development, and defensive programming principles.
+    </p>
+
 </body>
 </html>
